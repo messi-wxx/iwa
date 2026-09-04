@@ -4,6 +4,7 @@
 .kotlin
 gradle
 build
+release
 *.apk
 *.ap_
 *.aab
