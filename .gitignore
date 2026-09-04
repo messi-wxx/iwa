@@ -7,3 +7,4 @@ release
 *.apk
 *.ap_
 *.aab
+/replay_pid*.log
