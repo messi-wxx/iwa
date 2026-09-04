@@ -2,7 +2,6 @@
 .gradle
 .idea
 .kotlin
-gradle
 build
 release
 *.apk
