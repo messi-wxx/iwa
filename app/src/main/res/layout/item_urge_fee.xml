@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/_260sdp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:background="@drawable/bg_meter_card"
+    android:orientation="vertical"
+    android:padding="@dimen/_12sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/_72sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/urge_month"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/navy"
+            android:textSize="@dimen/_12ssp"
+            tools:text="2024-08" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/_72sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/urge_fee_meter"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tvMeter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/navy"
+            android:textSize="@dimen/_12ssp"
+            tools:text="A123456" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/_72sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/urge_start_qty"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tvStartQty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/navy"
+            android:textSize="@dimen/_12ssp"
+            tools:text="100" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/_72sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/urge_end_qty"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tvEndQty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/navy"
+            android:textSize="@dimen/_12ssp"
+            tools:text="130" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/_72sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/urge_use_qty"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tvUseQty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/navy"
+            android:textSize="@dimen/_12ssp"
+            tools:text="30" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/_72sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/urge_receivable"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tvReceivable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/logout"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            tools:text="86.4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/_72sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/urge_late_fee"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tvLateFee"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/logout"
+            android:textSize="@dimen/_12ssp"
+            tools:text="2.1(3天)" />
+    </LinearLayout>
+</LinearLayout>

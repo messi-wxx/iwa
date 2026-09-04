@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/diagnose_dalian_title"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/diagnose_dalian_title"
+        android:textColor="@color/navy"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toStartOf="@id/btnBluetooth"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+    <ImageButton
+        android:id="@+id/btnBluetooth"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/diagnose_bluetooth"
+        android:src="@drawable/ic_bluetooth"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBack">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/_12sdp"
+            android:paddingTop="@dimen/_8sdp">
+
+            <TextView
+                android:id="@+id/btnQueryWater"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_meter_card"
+                android:drawableEnd="@drawable/ic_chevron_right"
+                android:elevation="2dp"
+                android:padding="@dimen/_14sdp"
+                android:text="@string/diagnose_get_water"
+                android:textColor="@color/navy"
+                android:textSize="@dimen/_14ssp" />
+
+            <TextView
+                android:id="@+id/btnFocusSend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_meter_card"
+                android:drawableEnd="@drawable/ic_chevron_right"
+                android:elevation="2dp"
+                android:padding="@dimen/_14sdp"
+                android:text="@string/diagnose_force_send"
+                android:textColor="@color/navy"
+                android:textSize="@dimen/_14ssp" />
+
+            <TextView
+                android:id="@+id/btnQueryInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_meter_card"
+                android:drawableEnd="@drawable/ic_chevron_right"
+                android:elevation="2dp"
+                android:padding="@dimen/_14sdp"
+                android:text="@string/diagnose_get_para"
+                android:textColor="@color/navy"
+                android:textSize="@dimen/_14ssp" />
+
+            <TextView
+                android:id="@+id/btnReviseReading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_meter_card"
+                android:drawableEnd="@drawable/ic_chevron_right"
+                android:elevation="2dp"
+                android:padding="@dimen/_14sdp"
+                android:text="@string/diagnose_modify_water"
+                android:textColor="@color/navy"
+                android:textSize="@dimen/_14ssp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_diagnose_result_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_14sdp">
+
+                <include
+                    android:id="@+id/rowWater"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowResult"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowRsrp"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowSnr"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowCover"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowSignal"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowRssi"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowFreq"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowCell"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowCellId"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/rowTime"
+                    layout="@layout/item_diagnose_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

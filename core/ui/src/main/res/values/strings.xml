@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="core_network_offline">当前无网络，请检查网络连接</string>
+    <string name="core_state_empty">暂无数据</string>
+    <string name="core_state_error">加载失败</string>
+    <string name="core_state_retry">点击重试</string>
+    <string name="core_state_offline">网络不可用</string>
+    <string name="core_loading">加载中…</string>
+    <string name="core_dialog_ok">确定</string>
+    <string name="core_dialog_cancel">取消</string>
+    <string name="core_dialog_hint">提示</string>
+</resources>

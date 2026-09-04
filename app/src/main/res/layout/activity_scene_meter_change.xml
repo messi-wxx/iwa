@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/scene_replace_meter"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/scene_replace_common"
+        android:textColor="@color/navy"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toStartOf="@id/btnSave"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+    <TextView
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:gravity="center"
+        android:text="@string/scene_save"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBack">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/_12sdp"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_20sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_meter_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_14sdp">
+
+                <TextView android:id="@+id/tvReplaceType" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_replace_type" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etReplaceReason" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_replace_reason" android:importantForAutofill="no" android:inputType="text" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etDeviceName" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_device_name" android:importantForAutofill="no" android:inputType="text" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etDeviceNumber" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_device_code" android:importantForAutofill="no" android:inputType="text" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etIdentify" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_identify" android:importantForAutofill="no" android:inputType="text" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvNameplate" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_nameplate" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvTag" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_tag" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etRemark" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_remark" android:importantForAutofill="no" android:inputType="text" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvConveyType" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_convey_type" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" android:visibility="gone" />
+                <TextView android:id="@+id/tvValveType" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_valve_type" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etValveNumber" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_valve_code" android:importantForAutofill="no" android:inputType="text" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvValveState" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_valve_state" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvUseType" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_use_type" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvPrepay" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_prepay" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etBusiness" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_business" android:importantForAutofill="no" android:inputType="text" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etStamp" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_stamp" android:importantForAutofill="no" android:inputType="text" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvCaliber" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_caliber" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etWarningFlux" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_warning_flux" android:importantForAutofill="no" android:inputType="numberDecimal" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etMaxHourFlux" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_max_hour_flux" android:importantForAutofill="no" android:inputType="numberDecimal" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etInitFlux" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_init_flux" android:importantForAutofill="no" android:inputType="numberDecimal" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etMaxFlux" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_max_flux" android:importantForAutofill="no" android:inputType="numberDecimal" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvInstallWay" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_install_way" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etRatio" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_ratio" android:importantForAutofill="no" android:inputType="number" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <EditText android:id="@+id/etCommonFlux" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:hint="@string/scene_common_flux" android:importantForAutofill="no" android:inputType="numberDecimal" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textSize="@dimen/_13ssp" />
+                <TextView android:id="@+id/tvBook" android:layout_width="match_parent" android:layout_height="@dimen/_36sdp" android:layout_marginTop="@dimen/_8sdp" android:background="@drawable/bg_input_meter" android:gravity="center_vertical" android:hint="@string/scene_book" android:paddingHorizontal="@dimen/_10sdp" android:textColor="@color/navy" android:textColorHint="@color/text_hint" android:textSize="@dimen/_13ssp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

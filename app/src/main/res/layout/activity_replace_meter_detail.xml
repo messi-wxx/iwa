@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/replacemeter_detail"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/replacemeter_detail"
+        android:textColor="@color/navy"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toStartOf="@id/btnShowWay"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+    <TextView
+        android:id="@+id/btnShowWay"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:background="@drawable/bg_soft_button"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:text="@string/replacemeter_show_way"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBack">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/_12sdp"
+            android:paddingTop="@dimen/_8sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_meter_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_14sdp">
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/navy"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_client_code"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        android:id="@+id/tvClientCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_charge_read"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        android:id="@+id/tvChargeRead"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/oldCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_meter_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_14sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/replacemeter_old_section"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_old_code"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <TextView
+                        android:id="@+id/tvOldMeterCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_old_reading"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <EditText
+                        android:id="@+id/etOldReading"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_input_meter"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_16ssp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:text="@string/replacemeter_old_photo"
+                    android:textColor="@color/navy"
+                    android:textSize="@dimen/_13ssp" />
+
+                <FrameLayout
+                    android:id="@+id/oldPhotoBox"
+                    android:layout_width="@dimen/_72sdp"
+                    android:layout_height="@dimen/_72sdp"
+                    android:layout_marginTop="@dimen/_8sdp">
+
+                    <ImageView
+                        android:id="@+id/ivOldPhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_input_meter"
+                        android:contentDescription="@string/replacemeter_old_photo"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:id="@+id/oldPhotoAdd"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_photo_add"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/_22sdp"
+                            android:layout_height="@dimen/_22sdp"
+                            android:contentDescription="@string/readmeter_take_photo"
+                            android:src="@drawable/ic_camera" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/newCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_meter_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_14sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/replacemeter_new_section"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_new_code"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <EditText
+                        android:id="@+id/etNewMeterCode"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_input_meter"
+                        android:hint="@string/replacemeter_nfc_hint"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:textColor="@color/navy"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <ImageButton
+                        android:id="@+id/btnBle"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/replacemeter_ble_title"
+                        android:padding="@dimen/_4sdp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/blue_tooth_" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_new_reading"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <EditText
+                        android:id="@+id/etNewReading"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_input_meter"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_16ssp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_caliber"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <EditText
+                        android:id="@+id/etCaliber"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_input_meter"
+                        android:inputType="number"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_14ssp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:text="@string/replacemeter_new_photo"
+                    android:textColor="@color/navy"
+                    android:textSize="@dimen/_13ssp" />
+
+                <FrameLayout
+                    android:id="@+id/newPhotoBox"
+                    android:layout_width="@dimen/_72sdp"
+                    android:layout_height="@dimen/_72sdp"
+                    android:layout_marginTop="@dimen/_8sdp">
+
+                    <ImageView
+                        android:id="@+id/ivNewPhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_input_meter"
+                        android:contentDescription="@string/replacemeter_new_photo"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:id="@+id/newPhotoAdd"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_photo_add"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/_22sdp"
+                            android:layout_height="@dimen/_22sdp"
+                            android:contentDescription="@string/readmeter_take_photo"
+                            android:src="@drawable/ic_camera" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:text="@string/replacemeter_install_type"
+                    android:textColor="@color/navy"
+                    android:textSize="@dimen/_13ssp" />
+
+                <RadioGroup
+                    android:id="@+id/rgInstallType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbVertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/replacemeter_vertical"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <RadioButton
+                        android:id="@+id/rbHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:text="@string/replacemeter_horizontal"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_verify_org"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <EditText
+                        android:id="@+id/etVerifyOrg"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_input_meter"
+                        android:inputType="text"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_verify_date"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <TextView
+                        android:id="@+id/tvVerifyDate"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_input_meter"
+                        android:gravity="center_vertical"
+                        android:hint="@string/replacemeter_pick_date"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:textColor="@color/navy"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="@dimen/_13ssp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_72sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replacemeter_verify_expire"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <TextView
+                        android:id="@+id/tvVerifyExpire"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_input_meter"
+                        android:gravity="center_vertical"
+                        android:hint="@string/replacemeter_pick_date"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:textColor="@color/navy"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="@dimen/_13ssp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:text="@string/replacemeter_env_photos"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/_13ssp" />
+
+                <TextView
+                    android:id="@+id/btnBuilding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_soft_button"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:text="@string/replacemeter_building"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvEnvPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="horizontal" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/surface_card"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_42sdp"
+            android:background="@drawable/bg_primary_button"
+            android:gravity="center"
+            android:text="@string/readmeter_save"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

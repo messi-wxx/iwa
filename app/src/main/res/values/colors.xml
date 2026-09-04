@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#016887</color>
+    <color name="primary_dark">#095A64</color>
+    <color name="primary_container">#D7EEF1</color>
+    <color name="navy">#12344D</color>
+    <color name="color_accent">#0B6E7A</color>
+    <color name="color_accent_light">#D7EEF1</color>
+    <!-- 从设计图 iwa_full_02_home 取样 -->
+    <color name="main_background">#EEF4F8</color>
+    <color name="home_background">#E6F0F9</color>
+    <!-- 取样自 bg_home_skyline 顶部天空 -->
+    <color name="home_status_bar">#CEE0F6</color>
+    <color name="home_card_disabled">#E8EEF2</color>
+    <color name="login_status_bar">#CEE0F6</color>
+    <color name="icon_disabled">#A8B4BC</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="text_primary">#12344D</color>
+    <color name="text_secondary">#7A8B97</color>
+    <color name="text_hint">#9AAEBA</color>
+    <color name="input_fill">#F4F8FA</color>
+    <color name="divider">#E3ECF0</color>
+    <color name="logout">#E06B5C</color>
+    <color name="warning">#D97706</color>
+    <color name="success">#2BA471</color>
+    <color name="crimson">#DC143C</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#9E9E9E</color>
+    <color name="input_stroke">#D5E2E8</color>
+    <color name="ic_launcher_background">#1B8AE8</color>
+    <color name="circle_blue">#3B82F6</color>
+    <color name="green_500">#10B981</color>
+    <color name="gray_8f">#8F8F8F</color>
+    <color name="green_dark">#166534</color>
+</resources>

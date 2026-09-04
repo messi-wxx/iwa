@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="core_state_text">#7A8B97</color>
+    <color name="core_state_title">#12344D</color>
+    <color name="core_state_primary">#0B6E7A</color>
+    <color name="core_banner_offline">#C4473A</color>
+    <color name="core_white">#FFFFFF</color>
+    <color name="core_loading_scrim">#99000000</color>
+    <color name="core_dialog_card">#FFFFFF</color>
+    <color name="core_dialog_title">#12344D</color>
+    <color name="core_dialog_body">#5B6E7A</color>
+    <color name="core_dialog_hint">#9AAEBA</color>
+    <color name="core_dialog_divider">#E3ECF0</color>
+    <color name="core_dialog_input">#F4F8FA</color>
+    <color name="core_dialog_ghost">#D7EEF1</color>
+</resources>

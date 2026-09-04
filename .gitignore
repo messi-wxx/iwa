@@ -1,0 +1,9 @@
+*.iml
+.gradle
+.idea
+.kotlin
+gradle
+build
+*.apk
+*.ap_
+*.aab

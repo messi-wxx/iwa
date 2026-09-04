@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/_6sdp"
+    android:paddingVertical="@dimen/_8sdp">
+
+    <TextView
+        android:id="@+id/tvMeter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/navy"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        tools:text="表号  A123456" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/_11ssp"
+        tools:text="日期  2024-08-01 10:21" />
+
+    <TextView
+        android:id="@+id/tvReading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/_11ssp"
+        tools:text="度数  1234" />
+
+    <TextView
+        android:id="@+id/tvSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/_11ssp"
+        tools:text="来源  移动抄表" />
+
+    <TextView
+        android:id="@+id/tvReader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/_11ssp"
+        tools:text="抄表员  张三" />
+
+    <TextView
+        android:id="@+id/tvAudit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/_11ssp"
+        tools:text="审核员  李四" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@color/divider" />
+</LinearLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_meter_card"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/_14sdp"
+    android:paddingBottom="@dimen/_8sdp">
+
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:text="@string/urge_read_history_title"
+        android:textColor="@color/navy"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:overScrollMode="never"
+        android:paddingHorizontal="@dimen/_10sdp" />
+</LinearLayout>

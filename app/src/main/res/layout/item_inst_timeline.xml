@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_8sdp"
+    android:background="@drawable/bg_meter_card"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp">
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/navy"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:paddingHorizontal="@dimen/_6sdp"
+            android:paddingVertical="@dimen/_2sdp"
+            android:textSize="@dimen/_11ssp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvOverdue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:paddingHorizontal="@dimen/_6sdp"
+            android:paddingVertical="@dimen/_2sdp"
+            android:textColor="@color/logout"
+            android:textSize="@dimen/_11ssp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvAssigneeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_11ssp" />
+
+        <TextView
+            android:id="@+id/tvForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:padding="@dimen/_4sdp"
+            android:text="表单"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvExpand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_4sdp"
+            android:text="∨"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@color/input_fill"
+        android:padding="@dimen/_8sdp"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/_12ssp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/collapsedSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@color/input_fill"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvSummaryLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/navy"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tvSummaryMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/_12ssp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/detailBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:orientation="vertical"
+        android:visibility="gone" />
+</LinearLayout>

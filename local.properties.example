@@ -1,0 +1,2 @@
+## 本地 SDK 路径（复制为 local.properties，勿提交 Git）
+sdk.dir=C\:\\Users\\YourName\\AppData\\Local\\Android\\Sdk

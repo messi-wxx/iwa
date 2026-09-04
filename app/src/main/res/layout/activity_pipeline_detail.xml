@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_16sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/pipeline_detail_title"
+                android:textColor="@color/navy"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/btnBack"
+                app:layout_constraintEnd_toStartOf="@id/btnAlarm"
+                app:layout_constraintStart_toEndOf="@id/btnBack"
+                app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+            <TextView
+                android:id="@+id/btnAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:text="@string/pipeline_alarm"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintBottom_toBottomOf="@id/btnBack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnBack" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:background="@drawable/bg_meter_card"
+            android:orientation="vertical"
+            android:padding="@dimen/_12sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:text="@string/pipeline_base_info"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvMoreInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pipeline_more_info"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/_12ssp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvSiteCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/_13ssp" />
+
+            <TextView
+                android:id="@+id/tvSiteName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/_13ssp" />
+
+            <LinearLayout
+                android:id="@+id/moreInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView android:id="@+id/tvAddress" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+                <TextView android:id="@+id/tvType" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+                <TextView android:id="@+id/tvCreateTime" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+                <TextView android:id="@+id/tvContact" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+                <TextView android:id="@+id/tvMobile" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+                <TextView android:id="@+id/tvPhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+                <TextView android:id="@+id/tvRemark" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+                <TextView android:id="@+id/tvProfile" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+                <TextView android:id="@+id/tvToken" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/_4sdp" android:textColor="@color/text_secondary" android:textSize="@dimen/_12ssp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/metricCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/bg_meter_card"
+            android:orientation="vertical"
+            android:padding="@dimen/_12sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:text="@string/pipeline_metrics"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvMoreMetric"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pipeline_more_metrics"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/_12ssp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMetrics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

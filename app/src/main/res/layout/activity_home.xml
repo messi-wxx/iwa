@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_home_page">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_140sdp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_home_skyline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_72sdp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_home_waves"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvBrand"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:includeFontPadding="false"
+        android:text="@string/app_name"
+        android:textColor="@color/navy"
+        android:textSize="@dimen/_24ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btnSettings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="@dimen/_44sdp"
+        android:layout_height="@dimen/_44sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_settings"
+        android:padding="@dimen/_10sdp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintBottom_toBottomOf="@id/tvBrand"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvBrand" />
+
+    <View
+        android:id="@+id/accentBar"
+        android:layout_width="@dimen/_4sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:background="@drawable/bg_accent_bar"
+        app:layout_constraintBottom_toBottomOf="@id/tvSectionTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvSectionTitle" />
+
+    <TextView
+        android:id="@+id/tvSectionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:includeFontPadding="false"
+        android:text="@string/home_section_title"
+        android:textColor="@color/navy"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/accentBar"
+        app:layout_constraintTop_toBottomOf="@id/tvBrand" />
+
+    <TextView
+        android:id="@+id/tvSectionSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:includeFontPadding="false"
+        android:text="@string/home_section_subtitle"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSectionTitle" />
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:includeFontPadding="false"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSectionSubtitle"
+        tools:text="欢迎，王小祥" />
+
+    <com.cq.iwa.core.ui.widget.StateLayout
+        android:id="@+id/stateLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcome">
+
+        <GridView
+            android:id="@+id/gridFunctions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:horizontalSpacing="@dimen/_10sdp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_24sdp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/_10sdp" />
+    </com.cq.iwa.core.ui.widget.StateLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

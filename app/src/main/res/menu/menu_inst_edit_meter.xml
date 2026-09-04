@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/inst_search" />
+    <item
+        android:id="@+id/action_add"
+        android:title="@string/inst_add" />
+    <item
+        android:id="@+id/action_import"
+        android:title="@string/inst_import" />
+</menu>
