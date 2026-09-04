@@ -1,4 +1,4 @@
-# IWA — Kotlin MVVM 标准框架 n
+# IWA — Kotlin MVVM 标准框架
 
 包名：`com.cq.iwa`  
 路径：`E:\TestCursor\iwa`
@@ -39,7 +39,7 @@ iwa/
 ## 快速开始
 
 1. 用 Android Studio 打开 `E:\TestCursor\iwa`
-2. **若缺少 `gradle/wrapper/gradle-wrapper.jar`**（误点 Skip 时常见），在工程根目录 PowerShell 执行：
+2. **若 缺少 `gradle/wrapper/gradle-wrapper.jar`**（误点 Skip 时常见），在工程根目录 PowerShell 执行：
    ```powershell
    .\setup-wrapper.ps1
    ```
