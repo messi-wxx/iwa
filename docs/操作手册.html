@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>智慧水务云 · 外勤操作手册</title>
+  <style>
+    :root {
+      --navy: #12344d;
+      --teal: #016887;
+      --bg: #eef4f8;
+      --card: #ffffff;
+      --muted: #7a8b97;
+      --line: #d5e2e8;
+      --warn: #d97706;
+      --ok: #2ba471;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--navy);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+    .hero { background: var(--navy); color: #fff; padding: 40px 24px 32px; }
+    .hero-inner, .wrap { max-width: 960px; margin: 0 auto; }
+    .hero h1 { margin: 0 0 8px; font-size: 28px; }
+    .hero p { margin: 0; color: #c5d6e2; }
+    .meta { margin-top: 14px; font-size: 13px; color: #9bb4c4; }
+    nav.toc {
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; z-index: 10;
+    }
+    nav.toc .wrap {
+      display: flex; flex-wrap: wrap; gap: 8px 16px;
+      padding: 12px 24px; font-size: 13px;
+    }
+    nav.toc a { color: var(--teal); text-decoration: none; }
+    nav.toc a:hover { text-decoration: underline; }
+    section {
+      background: var(--card);
+      margin: 20px auto;
+      max-width: 960px;
+      padding: 24px 28px 32px;
+      border: 1px solid var(--line);
+      scroll-margin-top: 52px;
+    }
+    h2 {
+      margin: 0 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid var(--teal);
+      font-size: 20px;
+    }
+    h3 { margin: 24px 0 8px; font-size: 16px; }
+    h4 { margin: 16px 0 6px; font-size: 14px; }
+    p { margin: 8px 0 12px; }
+    ol, ul { padding-left: 22px; }
+    li { margin: 5px 0; }
+    .note, .warn, .tip {
+      padding: 10px 12px;
+      border-left: 4px solid var(--teal);
+      background: #f4fafb;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .warn { border-color: var(--warn); background: #fff8ee; }
+    .tip { border-color: var(--ok); background: #f3faf6; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0 8px; }
+    th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
+    th { background: #f3f7fa; }
+    .k { font-weight: 700; width: 26%; }
+    .flow {
+      display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+      margin: 10px 0 14px; font-size: 13px;
+    }
+    .flow span {
+      background: #f3f7fa; border: 1px solid var(--line); border-radius: 8px;
+      padding: 5px 9px;
+    }
+    .flow em { font-style: normal; color: var(--muted); }
+    .muted { color: var(--muted); font-size: 13px; }
+    footer { max-width: 960px; margin: 0 auto 36px; padding: 0 8px; color: var(--muted); font-size: 12px; }
+    @media (max-width: 800px) { section { padding: 18px 14px 24px; margin: 14px 10px; } }
+    @media print {
+      nav.toc { position: static; }
+      .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="muted" style="color:#9bb4c4">重庆智慧水务 · 外勤工作台</div>
+      <h1>智慧水务云 操作手册</h1>
+      <p>纯文字说明。按 App 真实页面与按钮整理，抄表从「抄表任务」到水表列表、抄表详情形成闭环。灰色入口表示当前账号没有该菜单权限。</p>
+      <div class="meta">适用应用：智慧水务云　|　2026 年 9 月　|　浏览器打开后 Ctrl+P 可存为 PDF</div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="wrap">
+      <a href="#start">开始使用</a>
+      <a href="#home">首页</a>
+      <a href="#meter">抄表</a>
+      <a href="#replace">换表</a>
+      <a href="#urge">催费</a>
+      <a href="#scene">现场服务</a>
+      <a href="#diagnose">诊断</a>
+      <a href="#calibrate">水表标定</a>
+      <a href="#pipeline">管网监测</a>
+      <a href="#inst">报装工单</a>
+      <a href="#settings">设置</a>
+      <a href="#env">环境图片编辑</a>
+      <a href="#faq">常见问题</a>
+    </div>
+  </nav>
+
+  <section id="start">
+    <h2>1. 开始使用</h2>
+    <h3>1.1 启动页 · 隐私保护提示</h3>
+    <p>第一次打开会弹出对话框，标题「<strong>隐私保护提示</strong>」。正文说明本应用及腾讯 Bugly、极光推送、高德地图等第三方 SDK 的使用情况。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">《隐私政策》</td><td>打开隐私政策全文网页。</td></tr>
+        <tr><td class="k">同意并继续</td><td>记下同意，初始化相关能力，再进入登录、首页或首次改密。</td></tr>
+        <tr><td class="k">不同意并退出</td><td>关闭应用，不能使用。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.2 账号登录</h3>
+    <p>标题区：「智慧水务云」「智慧水务  服务民生」；分组标题「账号登录」，副标题「使用水司账号进入外勤工作台」。页底「保障供水安全  服务千家万户」。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">公司编码</td><td>填水司代码。空则「请填写公司编码」。</td></tr>
+        <tr><td class="k">账号</td><td>外勤账号。空则「请填写账号」。</td></tr>
+        <tr><td class="k">密码</td><td>登录密码。空则「请填写密码」。右侧<strong>眼睛图标</strong>切换明文/密文。</td></tr>
+        <tr><td class="k">验证码</td><td>看图输入。点右侧<strong>验证码图片</strong>可刷新。失败「验证码加载失败，请点击刷新」。空或错「请正确输入验证码」。</td></tr>
+        <tr><td class="k">我已阅读并同意《隐私政策》</td><td>必须勾选。点蓝色《隐私政策》可再看全文。未勾选点登录：「请先阅读并勾选同意隐私政策」。</td></tr>
+        <tr><td class="k">登录</td><td>提交。成功进首页。停用：「该用户已经停用」。异常：「账号异常，请联系管理员」。首次登录（须改密）：「首次登录必须先修改密码」，进入改密页且<strong>没有返回键</strong>。配置下载失败：「配置信息下载失败」。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.3 修改密码</h3>
+    <p>标题「修改密码」。设置里进入时左上角有返回；首次登录进入时隐藏返回，必须改完才能进首页。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">旧密码 / 新密码 / 确认新密码</td><td>各有一只眼睛切换显隐。空会提示请填写对应项。两次新密码不一致：「新密码确认不一致」。</td></tr>
+        <tr><td class="k">确认修改</td><td>规则：至少 6 位，且包含小写、大写、数字、符号中的任意 3 种（「密码至少6位，并且包含小写字母、大写字母、数字、符号其中3种组合」）。成功：「密码修改成功」。首次改密成功后下载配置并进首页。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="home">
+    <h2>2. 首页</h2>
+    <p>标题「智慧水务云」。分组「今日外勤」，副标题「高效服务 · 智慧水务」，欢迎语「欢迎，{姓名}」。宫格两列。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">右上角齿轮</td><td>进入设置。</td></tr>
+        <tr><td class="k">抄表</td><td>进入「抄表任务」。</td></tr>
+        <tr><td class="k">换表</td><td>进入「周检换表任务」。</td></tr>
+        <tr><td class="k">催费</td><td>进入催费任务列表。</td></tr>
+        <tr><td class="k">现场服务</td><td>进入现场服务查询。</td></tr>
+        <tr><td class="k">诊断</td><td>进入「选择水表类型」。</td></tr>
+        <tr><td class="k">水表标定</td><td>进入「查询地址」。</td></tr>
+        <tr><td class="k">管网监测</td><td>进入「我的关注」。</td></tr>
+        <tr><td class="k">报装工单</td><td>进入「我的待处理」。</td></tr>
+        <tr><td class="k">灰色格子</td><td>显示「暂无权限」。点击只 Toast，不进入。</td></tr>
+      </tbody>
+    </table>
+    <p>若有新版本，弹「版本升级提醒」：「发现新版本，是否立即更新？」按钮「更新」「忽略」，勾选「下次不再提醒」后本次版本不再在首页弹出。</p>
+  </section>
+
+  <section id="meter">
+    <h2>3. 抄表（完整闭环）</h2>
+    <p>首页点「抄表」。整条链路：</p>
+    <div class="flow">
+      <span>首页 · 抄表</span><em>→</em>
+      <span>抄表任务（表册）</span><em>→</em>
+      <span>勾选并同步</span><em>→</em>
+      <span>水表列表</span><em>→</em>
+      <span>抄表详情</span><em>→</em>
+      <span>保存为已抄</span><em>→</em>
+      <span>回表册再同步上传</span>
+    </div>
+    <p>详情页分两种：<strong>BCP</strong> 标题为「姓名 + 户号」（有欠费详情、上一户/下一户）；<strong>EDC / ITWater</strong> 标题「抄表详情」（有最近抄、环境照片、楼栋标定）。</p>
+
+    <h3>3.1 抄表任务 · 还没有表册</h3>
+    <p>标题「<strong>抄表任务</strong>」。空页：「本地暂无表册。请先获取表册名单，再勾选需要下载的表册。」</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">返回</td><td>回首页。若正在多选，先退出多选，不立刻离开。</td></tr>
+        <tr><td class="k">搜索</td><td>显示/隐藏输入框，hint「表号、户号、姓名、地址」。键盘搜索：无结果「未查到相关水表」；有结果弹出标题「搜索」的列表（表号、姓名、地址），点一项直接进该表详情，可跨表册。</td></tr>
+        <tr><td class="k">同步</td><td>空列表时只<strong>获取表册名单</strong>，不下载水表明细。成功：「已获取表册名单，请勾选后同步」。服务端没有册：「服务端没有待抄表册」。</td></tr>
+        <tr><td class="k">获取表册</td><td>空页中间按钮，与空列表时的同步相同。</td></tr>
+        <tr><td class="k">下拉刷新</td><td>同样只刷新表册名单。</td></tr>
+        <tr><td class="k">NFC 贴卡</td><td>按卡内表号搜表。0 条「未找到该水表」；1 条进详情；多条弹出选择对话框。</td></tr>
+      </tbody>
+    </table>
+    <div class="tip">这一步还进不了水表。必须先拿到名单，再勾选下载，卡片上出现「共 n 块 · 未抄 · 已抄」后才能点进去。</div>
+
+    <h3>3.2 抄表任务 · 表册列表</h3>
+    <p>每张卡片：表册名、状态（进行中 / 已完结）、进度。</p>
+    <table>
+      <thead><tr><th>看到的内容</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td class="k">进行中 / 已完结</td><td>任务状态。服务端已消失的表册会标成已完结。</td></tr>
+        <tr><td class="k">共 n 块 · 未抄 · 已抄</td><td>已下载，可以点进去抄。</td></tr>
+        <tr><td class="k">未下载</td><td>只有名单。点进去：「该表册尚未下载，请先勾选后同步」。</td></tr>
+      </tbody>
+    </table>
+    <table>
+      <thead><tr><th>操作</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">单击已下载</td><td>进入该表册的水表列表。</td></tr>
+        <tr><td class="k">单击未下载</td><td>不进入，提示先同步。</td></tr>
+        <tr><td class="k">长按任意表册</td><td>进入多选。</td></tr>
+        <tr><td class="k">顶部同步（已有数据且未多选）</td><td>也是进入多选，不会立刻开传。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3.3 抄表任务 · 多选同步</h3>
+    <p>卡片左侧出现勾选框，底部出现操作栏。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">勾选框 / 点卡片</td><td>选中或取消该表册。</td></tr>
+        <tr><td class="k">是否包含网络表</td><td><strong>仅 BCP 账号</strong>在多选时出现。勾选后同步按网络表类型下载，不勾按普通表。</td></tr>
+        <tr><td class="k">全选</td><td>全选 / 取消全选切换。</td></tr>
+        <tr><td class="k">取消</td><td>退出多选，底栏收起。</td></tr>
+        <tr><td class="k">同步</td><td>同步勾选的表册。未勾选：「请选择表册后再同步」。过程中屏幕常亮。</td></tr>
+      </tbody>
+    </table>
+    <h4>点「同步」之后的顺序</h4>
+    <ol>
+      <li>刷新配置。</li>
+      <li>再拉一遍表册名单并写入本地。</li>
+      <li>对每个勾选表册：<strong>先上传</strong>本地已抄读数和照片；有环境位置再上传位置；<strong>再下载</strong>服务端最新明细并合并。</li>
+      <li>成功：「同步成功」。失败弹窗标题「同步失败」，列出错误表册。</li>
+    </ol>
+    <div class="note">已抄未上传的数据一直留在本机，下载新名单不会冲掉。不要一次勾选过多表册。</div>
+
+    <h3>3.4 水表列表</h3>
+    <p>从已下载表册点进来。标题是<strong>表册名</strong>。本页没有同步按钮，上传仍回表册页做。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">返回</td><td>回抄表任务。</td></tr>
+        <tr><td class="k">搜索</td><td>在本表册内按表号、户号、姓名、地址搜。结果同样弹「搜索」列表再进详情。</td></tr>
+        <tr><td class="k">全部</td><td>未删除的全部水表。</td></tr>
+        <tr><td class="k">未抄</td><td>还没保存过的表。</td></tr>
+        <tr><td class="k">已抄</td><td>已抄 + 已上传都在这一档。</td></tr>
+        <tr><td class="k">所有分组</td><td>该表册有分组时才显示。点开选某一组或回到「所有分组」。</td></tr>
+        <tr><td class="k">下拉刷新 / 上拉加载</td><td>分页，每页 20 条。</td></tr>
+        <tr><td class="k">单击一行</td><td>进详情（BCP 或内部页，由平台决定）。</td></tr>
+        <tr><td class="k">长按一行</td><td>仅已抄或已上传可删。标题「确定删除该表吗？」。正文说明会造成数据丢失，换表后若要再抄需删旧表再同步该表册。确认「删除」，取消「取消」。未抄的表长按无效。</td></tr>
+        <tr><td class="k">NFC</td><td>刷到本表册内的表则打开详情，并视为已刷卡解锁。</td></tr>
+      </tbody>
+    </table>
+    <p>每行：表号、户名、地址、状态（未抄 / 已抄 / 已上传）。已抄 = 只在手机上；已上传 = 服务器已收到。</p>
+
+    <h3>3.5 抄表详情 · EDC / ITWater</h3>
+    <p>标题「抄表详情」。顶栏只有返回，没有欠费详情。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">返回</td><td>回水表列表（或搜索进入时的上一页）。</td></tr>
+        <tr><td class="k">水表编号 / 水表地址</td><td>只读。空显示「暂无」。</td></tr>
+        <tr><td class="k">扩展信息</td><td>服务端下发的键值（不含联系电话）。</td></tr>
+        <tr><td class="k">联系电话</td><td>点号码拨打；空显示「暂无电话」。「编辑电话」改号码，hint「输入电话号码」。</td></tr>
+        <tr><td class="k">抄表员备注</td><td>抄表员自己的备注，与下面「抄表备注」不是同一项。</td></tr>
+        <tr><td class="k">抄表止度</td><td>本期读数，最多 9 位整数。正常抄表不填：「未填写表度数」。超格式：「水表读数最多九位整数」。</td></tr>
+        <tr><td class="k">用量</td><td>有上期读数时自动算差，供核对。</td></tr>
+        <tr><td class="k">抄表备注</td><td>默认「正常抄表」。点开「选择备注」。未配置备注：「暂未配置备注信息」。选「其它」必须填「请填写无法抄表具体原因」。</td></tr>
+        <tr><td class="k">拍照记录 +</td><td>打开相机拍表盘，最多 3 张。超限：「最多只能上传三张图片」。点缩略图预览。长按删除：「删除操作 / 确定删除该图片吗？」确认「删除」。拒绝相机权限：「您拒绝了使用此功能必须的权限」。水司配置必须拍照则不拍不能保存：「未拍照」。</td></tr>
+        <tr><td class="k">环境照片</td><td>水司开启显示环境照时出现。点 + 选「手机相册」或「手机拍照」，进入环境图片编辑。最多 4 张。处理失败：「环境图片处理失败」。有环境照会带定位。</td></tr>
+        <tr><td class="k">楼栋标定+</td><td>按当前表号打开标定。表号空：「请输入表号」。</td></tr>
+        <tr><td class="k">最近抄</td><td>跳到本表册最近一次已抄。没有：「没有发现最近有抄表」。成功：「已返回到最近的抄表」。即使开了强制刷卡，这一钮仍可用。</td></tr>
+        <tr><td class="k">保存</td><td>校验后写入本地，变为「已抄」（此时还没上传）。保存中：「正在保存...」。成功：「保存成功」。</td></tr>
+        <tr><td class="k">上一块 / 下一块</td><td>在未抄表之间跳。到头：「已经是第一个/最后一个未抄水表了」。</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      水司开启「强制刷卡」时：未刷 NFC，保存、上一块、下一块禁用；保存提示「请先刷卡后再保存」。刷对本表「刷卡成功」并解锁；刷到其他表则打开那块表。跳到下一块后会重新上锁，需要再刷。
+      用量异常会弹「提示」并问是否「继续保存」（小于上期读数、超过设定最大用量、超过平均用量比例等），确认后才落库。
+    </div>
+
+    <h3>3.6 抄表详情 · BCP</h3>
+    <p>标题为「姓名 + 户号」。没有环境照、楼栋标定、最近抄。读数可带小数（最多 9 位整数 + 3 位小数），超格式会提示「水表读数最多九位整数和三位小数」。水司配置算用量时显示用量差。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">欠费详情</td><td>有户号时打开催费详情。户号空则无操作。</td></tr>
+        <tr><td class="k">欠费信息</td><td>无欠费「暂无欠费」；有欠费显示红色金额和截止时间。</td></tr>
+        <tr><td class="k">拨打 / 编辑</td><td>打电话、改电话。用户信息区也可编辑抄表员备注。</td></tr>
+        <tr><td class="k">抄表止度 / 备注 / 拍照</td><td>规则同内部页（读数可小数）。同样最多 3 张、长按删除、强制拍照、用量异常继续保存。</td></tr>
+        <tr><td class="k">上一户 / 下一户</td><td>在未抄用户之间跳。强制刷卡时同样会禁用，直到刷卡。</td></tr>
+        <tr><td class="k">保存</td><td>只存本地。强制刷卡、校验规则同上。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3.7 保存之后如何闭环</h3>
+    <ol>
+      <li>保存成功后，设置里「自动跳下一块表」打开则按顺序跳下一未抄；关闭则按反序跳。</li>
+      <li>列表状态变为「已抄」。服务器此时还没有这笔数据。</li>
+      <li>返回「抄表任务」，长按或点同步 → 勾选该表册 → 底栏「同步」：先上传已抄和照片，再下载最新名单。</li>
+      <li>上传成功后变为「已上传」。</li>
+    </ol>
+    <p>换账号时本地表册按账号隔离。设置「清除缓存」只清当前账号。</p>
+  </section>
+
+  <section id="replace">
+    <h2>4. 换表</h2>
+    <p>首页「换表」。标题「周检换表任务」。仅 <strong>EDC</strong>，其它平台：「换表任务仅支持 EDC 平台」。</p>
+    <p>流程：获取任务名单 → 多选同步 → 任务下水表列表（或地图）→ 换表详情 → 保存 → 再同步上传。</p>
+
+    <h3>4.1 周检换表任务</h3>
+    <p>空页：「本地暂无换表任务。请先获取任务名单，再勾选需要下载的任务。」按钮「获取任务」。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">返回</td><td>多选中先退出多选，否则回首页。</td></tr>
+        <tr><td class="k">搜索</td><td>hint「旧表号、新表号、地址」。结果弹列表选表进详情；该表不可换：「该表不可换」。</td></tr>
+        <tr><td class="k">同步 / 获取任务 / 下拉刷新</td><td>空列表拉任务名单；有数据则进多选；多选中点同步则上传再下载。底栏：全选 / 取消 / 同步。无「是否包含网络表」。</td></tr>
+        <tr><td class="k">长按任务</td><td>进入多选。</td></tr>
+        <tr><td class="k">单击已下载</td><td>进该任务水表列表。进度「共 n 块 · 未换 · 已换」。未下载：「请先下载」类提示。</td></tr>
+        <tr><td class="k">NFC</td><td>刷卡打开可换表的详情。</td></tr>
+      </tbody>
+    </table>
+    <p>任务状态：进行中 / 已完结。同步失败同样弹「同步失败」。</p>
+
+    <h3>4.2 任务内水表列表</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">搜索</td><td>在本任务内搜表。</td></tr>
+        <tr><td class="k">地图展示</td><td>打开地图页。</td></tr>
+        <tr><td class="k">未换表 / 已换表</td><td>筛选，括号内为数量。列表状态还有：不可换、旧表未换、新表未换、已完成。</td></tr>
+        <tr><td class="k">所有分组</td><td>有分组时筛选。</td></tr>
+        <tr><td class="k">单击一行</td><td>可换进详情；不可换提示「该表不可换」。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.3 地图展示</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">返回</td><td>回水表列表。</td></tr>
+        <tr><td class="k">定位</td><td>地图回到当前位置。</td></tr>
+        <tr><td class="k">点标记「换表&gt;&gt;」</td><td>可换进详情；不可换提示。</td></tr>
+      </tbody>
+    </table>
+    <p>图例：未换红色、已换绿色、不需更换灰色，并显示各数量。</p>
+
+    <h3>4.4 换表详情</h3>
+    <p>标题「换表」。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">换表方式</td><td>只换旧表 / 只换新表 / 新旧都换。决定哪些区必填。</td></tr>
+        <tr><td class="k">户号、收费止度</td><td>只读核对。</td></tr>
+        <tr><td class="k">旧表号 / 旧表止度 / 旧表照片</td><td>核对旧表并拍照。长按照片删除（确认框同抄表）。</td></tr>
+        <tr><td class="k">新表号</td><td>可手填。提示「可刷 NFC 写入」。旁蓝牙图标读表号：未连接则扫描；已连接弹「蓝牙已连接」：「当前设备可继续读取新表号。更换设备请先断开再扫描。」按钮「继续使用」「断开重扫」。手机不支持：「手机不支持该蓝牙设备」。蓝牙关：「打开蓝牙」。无定位：「请开启定位」。扫描失败类：「蓝牙连接失败」「未找到可读特征值」。</td></tr>
+        <tr><td class="k">新表起度、口径、新表照片</td><td>按现场填写、拍照。</td></tr>
+        <tr><td class="k">立式 / 卧式</td><td>安装方式，二选一。</td></tr>
+        <tr><td class="k">检定机构、检定日期、有效期至</td><td>点日期弹出「选择日期」。负按钮「清除」可清空日期。</td></tr>
+        <tr><td class="k">环境照片</td><td>选「手机相册」或「手机拍照」，进环境图片编辑，最多 4 张。</td></tr>
+        <tr><td class="k">楼栋标定+</td><td>进标定。表号空：「请输入表号」。</td></tr>
+        <tr><td class="k">保存</td><td>校验。异常时「提示」+「继续保存」。保存中：「正在保存...」。保存后回列表再同步上传。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="urge">
+    <h2>5. 催费</h2>
+    <p>首页「催费」→ 任务列表 → 点任务进用户/水表列表 → 点用户进「催费详情」。也可在任务列表顶部直接查询。</p>
+    <h3>5.1 催费任务列表 / 用户列表</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">返回</td><td>回上一页。</td></tr>
+        <tr><td class="k">刷新</td><td>重新拉取列表。</td></tr>
+        <tr><td class="k">查询</td><td>hint「用户编号、名称、电话等」。无结果「未查找到数据」。有结果弹「查询结果」，点用户直达详情。</td></tr>
+        <tr><td class="k">任务行 / 用户行</td><td>进入下级列表或详情。</td></tr>
+      </tbody>
+    </table>
+    <h3>5.2 催费详情</h3>
+    <p>展示用户信息（姓名、编号、电话、地址、状态、立户日期、用户备注、余额、欠费金额）、欠费信息（月份、水表、起度、止度、用量、结算费用、违约金；无则「暂无欠费信息」）、水表信息（表号、口径、计费性质/状态、结算方式、抄读止度/日期、阀门状态、使用状态、表册、水表备注；无则「暂无水表信息」）。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">刷新</td><td>刷新当前用户欠费与水表。</td></tr>
+        <tr><td class="k">拨打 / 编辑</td><td>打电话；「编辑电话」改号码。</td></tr>
+        <tr><td class="k">抄读记录</td><td>弹「抄表记录」：表号、日期、度数、来源、抄表员、审核员。</td></tr>
+        <tr><td class="k">开关阀</td><td>标题「确定进行开关阀？」，正文「请谨慎开关水表阀门，以免产生不必要的纠纷！」。<strong>「开阀」执行开阀，「关阀」执行关阀。点关阀不是放弃操作，请看清再点。</strong></td></tr>
+        <tr><td class="k">编辑（备注）</td><td>「抄表员备注」，hint「请输入抄表员备注」。</td></tr>
+        <tr><td class="k">上一户 / 下一户</td><td>在任务内切换用户。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="scene">
+    <h2>6. 现场服务</h2>
+    <p>首页「现场服务」。先查设备，再按平台进入不同功能。不支持时：「当前平台暂不支持此功能」。拒绝相机：「您拒绝了使用此功能必须的权限」。</p>
+
+    <h3>6.1 查询页</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">选择水司</td><td>多水司时出现。进水司列表（可按「水司名称」搜）后回填。</td></tr>
+        <tr><td class="k">请输入表号</td><td>手填。也可 NFC 写入。</td></tr>
+        <tr><td class="k">扫码</td><td>打开「扫描」，提示「请对准二维码」。可「取消」退出。</td></tr>
+        <tr><td class="k">查询</td><td>拉取设备。结果卡：设备名称、识别号、设备编号、铭牌、安装地址、创建时间，以及平台标签 edc / epo / itwater。</td></tr>
+        <tr><td class="k">现场服务 &gt;&gt;</td><td>进入「现场功能」。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.2 现场功能（五项）</h3>
+    <table>
+      <thead><tr><th>入口</th><th>平台</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">组件更换</td><td>epo</td><td>有成品进「成品详情」；否则不支持。</td></tr>
+        <tr><td class="k">组件识别码更新</td><td>epo</td><td>无组件：「该设备无组件」。有则「选择组件」→「输入新的识别码」。</td></tr>
+        <tr><td class="k">成品识别码更新</td><td>epo</td><td>「输入新的识别码」，hint「新的识别码」。扫码或「确定」提交。</td></tr>
+        <tr><td class="k">单抄保存</td><td>edc</td><td>填「表度数」「累计流量」「正向流量」「反向流量」后「保存」。</td></tr>
+        <tr><td class="k">更换表</td><td>edc</td><td>先选水表类型，再单抄，再换表表单。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.3 EPO：成品详情与更换组件</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">产品简报</td><td>打开只读简报网页。</td></tr>
+        <tr><td class="k">更换组件</td><td>未出库：「该成品未出库，不能进行更换操作」。已出库进入更换页。</td></tr>
+        <tr><td class="k">原组件 · 添加</td><td>把原组件加入新组件列表。</td></tr>
+        <tr><td class="k">新组件 · 移除</td><td>从新列表去掉。</td></tr>
+        <tr><td class="k">添加新组件</td><td>「输入新组件信息」，hint「组件编号或识别码」，可扫码。</td></tr>
+        <tr><td class="k">下一步</td><td>进入「成品登记注册」。</td></tr>
+        <tr><td class="k">完成</td><td>登记页提交。页面含成品类型、编号、生命周期、状态、所属公司、成品代码、用途等动态字段，支持扫码。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.4 EDC：水表类型与更换表单</h3>
+    <p>「水表类型」三选一：普通水表 / 远传水表 / 远传阀控水表。对应后续标题「普通水表更换 / 远传水表更换 / 远传阀控水表更换」。先单抄保存，再填更换表单后「保存」。</p>
+    <p>更换表单常见项（按页面显示，带 * 为必填）：更换类型、更换理由、识别号、设备标签、备注、传输类型、阀门类型、阀门编号、阀门状态、使用类型、是否预付费、营业号码、钢印号、口径、警示时流量、最大时流量、初始水量、最大水量读数、安装方式、量程比、常用流量、水表抄读册。点抄读册进入「选择表册」。</p>
+  </section>
+
+  <section id="diagnose">
+    <h2>7. 诊断</h2>
+    <p>首页「诊断」先到「选择水表类型」。各诊断页顶栏都有「蓝牙」：扫描连接。未连接点其它按钮：「未连接蓝牙设备」。忙碌：「操作中，请保持设备之间正常连接...」。请打开蓝牙和定位，保持靠近，不要锁屏。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">NB表</td><td>再弹「类型选择」：普通NB表 / 大连NB表。</td></tr>
+        <tr><td class="k">普通有线表</td><td>进入有线表诊断。</td></tr>
+      </tbody>
+    </table>
+    <h3>7.1 普通NB表现场诊断</h3>
+    <p>「读取水表参数」「强制发送」「修改水量」（需后台改数权限，否则不显示）「开阀」「关阀」。修改水量弹框「请输入水量」，hint「最大八位正整数」。</p>
+    <h3>7.2 大连NB表现场诊断</h3>
+    <p>「获取水表水量」「强制发送」「获取水表参数」「修改水量」+ 蓝牙。</p>
+    <h3>7.3 普通有线表</h3>
+    <p>「获取水表水量」「读序列号」「读版本号」。按钮文案「开关阀状态」实际弹出修改水量输入框。点「更多操作」打开「更多功能」列表：开阀、关阀、写申舒斯1X、写申舒斯10X、写申舒斯表号、写申舒斯水量。<strong>当前版本点选后不会真正下发指令</strong>，仅作列表展示。</p>
+  </section>
+
+  <section id="calibrate">
+    <h2>8. 水表标定</h2>
+    <p>首页「水表标定」，或抄表/换表详情「楼栋标定+」。首页入口先到「查询地址」。</p>
+    <h3>8.1 查询地址</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">查询</td><td>hint「表号/识别编号/地址」。无数据「未查找到数据」。多片区先弹「选择片区」。</td></tr>
+        <tr><td class="k">结果行</td><td>进入「查看位置信息」。</td></tr>
+      </tbody>
+    </table>
+    <h3>8.2 查看位置信息</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">新增</td><td>进「新增标定信息」。该表没有片区：「该表没有导入片区信息」。</td></tr>
+        <tr><td class="k">历史标定记录</td><td>查看历史。无记录「暂无历史记录」。点一条可回看。</td></tr>
+        <tr><td class="k">路径节点</td><td>切换地址节点。未选节点：「未选择地址节点」。</td></tr>
+        <tr><td class="k">地图标记点 · 导航</td><td>弹出「导航」：高德地图 / 百度地图。未安装对应 App 会提示。</td></tr>
+      </tbody>
+    </table>
+    <h3>8.3 新增标定信息</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">环境照片</td><td>相册或拍照，可进环境图片编辑，可删图确认。</td></tr>
+        <tr><td class="k">重新定位</td><td>地图回到当前定位。</td></tr>
+        <tr><td class="k">描述</td><td>最多 100 字。</td></tr>
+        <tr><td class="k">提交</td><td>未在地图标记：「未在地图标记位置」。</td></tr>
+        <tr><td class="k">返回</td><td>已编辑部分内容时弹「温馨提示」：「您已经编辑部分位置信息，是否确定退出？」「确定」离开，「返回」留下继续编。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="pipeline">
+    <h2>9. 管网监测</h2>
+    <p>首页进入默认「我的关注」。空列表：「点击右上角添加关注的设备」。后台可启「预警服务」（需通知权限）。</p>
+    <h3>9.1 我的关注</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">更多 · 所有站点</td><td>打开站点树。</td></tr>
+        <tr><td class="k">更多 · 报警记录</td><td>打开报警列表。</td></tr>
+        <tr><td class="k">取消关注</td><td>从关注中移除该站点。</td></tr>
+        <tr><td class="k">长按拖动站点</td><td>调整关注顺序并保存。</td></tr>
+        <tr><td class="k">点站点行</td><td>进「站点/设备详情」。</td></tr>
+        <tr><td class="k">指标星标</td><td>关注或取消该指标。</td></tr>
+        <tr><td class="k">点指标内容</td><td>打开「指标历史记录」曲线，可选日期范围。</td></tr>
+      </tbody>
+    </table>
+    <h3>9.2 所有站点</h3>
+    <p>「返回上一级」回父节点。点节点下钻。点详情图标进站点详情。</p>
+    <h3>9.3 站点/设备详情</h3>
+    <p>基础信息：站点编号、名称、详细地址、站点类型、创建时间。更多信息：联系人、手机号码、其他电话、备注、指标采集方案等。「更多信息 / 收起更多」「更多指标 / 收起指标」。顶栏可进该站「报警记录」。指标同样可关注、点开曲线。</p>
+    <h3>9.4 报警记录</h3>
+    <p>按日期范围筛选。状态 Chip：激活 / 已清除 / 已确认 / 未确认。空：「暂无报警记录」。</p>
+  </section>
+
+  <section id="inst">
+    <h2>10. 报装工单</h2>
+    <p>首页进入「我的待处理」。无项目时「暂无项目」。</p>
+    <h3>10.1 我的待处理</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">关注/催办</td><td>实际打开「发现项目」（不是字面意义上只做关注）。</td></tr>
+        <tr><td class="k">全部待处理 →</td><td>实际打开「我的项目」。</td></tr>
+        <tr><td class="k">项目卡片</td><td>进项目详情，可办理。</td></tr>
+      </tbody>
+    </table>
+    <h3>10.2 我的项目 / 发现项目</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">待办 / 催办 / 关注</td><td>我的项目里三个 Tab。待办可办理；催办、关注为浏览。关注 Tab 可「取消关注」。</td></tr>
+        <tr><td class="k">筛选</td><td>打开「筛选项目」。</td></tr>
+        <tr><td class="k">关注 / 取消关注</td><td>发现项目列表上切换关注。</td></tr>
+        <tr><td class="k">催办</td><td>填写催办理由。项目已完成：「项目已完成」，不能催。</td></tr>
+      </tbody>
+    </table>
+    <h4>筛选项目</h4>
+    <ul>
+      <li>项目编号、项目地址、申请人信息（姓名、电话或身份证）</li>
+      <li>申请时间：开始日期 至 结束日期</li>
+      <li>报装类型：居民报装 / 单位报装 / 小区报装</li>
+      <li>项目状态：申请未通过 / 终止 / 暂停 / 待受理 / 进行中 / 已完成</li>
+      <li>「重置」「确定筛选」</li>
+    </ul>
+    <h3>10.3 项目详情</h3>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">更多 · 仪表档案</td><td>只读查看仪表。</td></tr>
+        <tr><td class="k">更多 · 项目日志</td><td>按日志时间、类型查看。</td></tr>
+        <tr><td class="k">流程总览</td><td>看各环节全貌。</td></tr>
+        <tr><td class="k">表格「仪表档案」等</td><td>进档案或弹出表格。</td></tr>
+        <tr><td class="k">时间线条目</td><td>查看该环节历史表单。</td></tr>
+        <tr><td class="k">去认领</td><td>认领该待办。</td></tr>
+        <tr><td class="k">去办理</td><td>打开当前环节表单。</td></tr>
+      </tbody>
+    </table>
+    <h3>10.4 办理表单</h3>
+    <p>标题为当前环节名。底栏除服务端配置的动作外，常见有「完成」「驳回」「延期」「仪表数量」。</p>
+    <ul>
+      <li>驳回：填节点和原因。</li>
+      <li>延期：填日期和原因。</li>
+      <li>附件来源：「拍照」「相册」「文件」。</li>
+      <li>仪表数量：进入「仪表登记」（可编）——「搜索」「新增」「导入Excel」；行可点进编辑；左滑删除。</li>
+    </ul>
+  </section>
+
+  <section id="settings">
+    <h2>11. 设置</h2>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">返回</td><td>回首页。</td></tr>
+        <tr><td class="k">账号信息</td><td>只读：账号姓名、账号代码、水司代码、水司名称。</td></tr>
+        <tr><td class="k">修改密码</td><td>进入改密页（有返回）。</td></tr>
+        <tr><td class="k">自动跳下一块表</td><td>开关。开：抄表保存后按顺序跳下一块未抄；关：按反序跳。副文案「开顺序 / 关反序」。</td></tr>
+        <tr><td class="k">清除缓存</td><td>右侧显示占用。确认框：将清除当前账号的本地表册、已抄备份和照片，其他账号不受影响，且不可恢复。成功「缓存已清除」。</td></tr>
+        <tr><td class="k">上传备份</td><td>把本机数据库备份传到服务器。成功「上传备份成功」。无备份「暂无数据备份」。失败「上传备份失败,请重试」。</td></tr>
+        <tr><td class="k">检查更新</td><td>右侧「当前版本 x」。已最新：「当前已经是最新版本」。有新版同首页升级弹窗。</td></tr>
+        <tr><td class="k">关于</td><td>见下。</td></tr>
+        <tr><td class="k">退出登录</td><td><strong>没有确认框</strong>，立刻清会话回登录页。本地表册仍按账号保留，除非已清缓存。</td></tr>
+      </tbody>
+    </table>
+    <h3>关于</h3>
+    <p>展示应用名「智慧水务云」、口号「智慧水务 · 智联未来」、版本。「隐私政策」打开全文。备案号「渝ICP备12002102号-3A」以及「工信部ICP/IP地址/域名信息备案管理系统」文字均可点，打开 https://beian.miit.gov.cn/ 。</p>
+  </section>
+
+  <section id="env">
+    <h2>12. 环境图片编辑</h2>
+    <p>抄表环境照、换表环境照、标定环境照都会进入本页，标题「编辑环境图片」。</p>
+    <table>
+      <thead><tr><th>控件</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td class="k">椭圆</td><td>在图上画椭圆标注。</td></tr>
+        <tr><td class="k">箭头</td><td>在图上画箭头。</td></tr>
+        <tr><td class="k">撤销</td><td>撤销当前选中的标注。未先选中：「请先选择要撤销的图标」。</td></tr>
+        <tr><td class="k">保存</td><td>写出带叠加文字/图形的图，回到上一页。</td></tr>
+        <tr><td class="k">返回</td><td>放弃本次编辑。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="faq">
+    <h2>13. 常见问题</h2>
+    <h3>首页格子是灰的？</h3>
+    <p>账号没有该菜单权限，点了只会「暂无权限」。请管理员在后台开通。</p>
+    <h3>表册是「未下载」，点不进去？</h3>
+    <p>长按或点同步进入多选，勾选后底栏点「同步」。出现「共 n 块 · 未抄 · 已抄」才能进水表列表。</p>
+    <h3>保存了但电脑端还看不到？</h3>
+    <p>保存只写在手机上（已抄）。必须回到「抄表任务」再同步，变成「已上传」后服务端才有。</p>
+    <h3>同步失败会丢已抄数据吗？</h3>
+    <p>不会。可再勾选重试。已抄未上传的读数和照片仍在本地。</p>
+    <h3>保存提示未拍照 / 未填写表度数 / 请先刷卡？</h3>
+    <p>正常抄表必须填止度。水司配置必须拍照则先拍表盘。配置强制刷卡则先 NFC。备注选「其它」必须写原因。</p>
+    <h3>催费里点「关阀」会怎样？</h3>
+    <p>会真正关阀，不是取消对话框。开阀、关阀都会执行对应动作。</p>
+    <h3>换账号后表册不见了？</h3>
+    <p>数据按账号隔离。用回原来的账号即可（未清缓存的前提下）。</p>
+    <h3>退出登录会清本地表册吗？</h3>
+    <p>不会。退出没有确认框，但数据仍按账号留在手机里，除非点了「清除缓存」。</p>
+    <h3>需要哪些系统权限？</h3>
+    <p>拍照与扫码：相机。环境照、蓝牙扫描、地图：定位。推送与管网预警：通知。拒绝后对应功能不可用，可在系统设置里打开。</p>
+  </section>
+
+  <footer>
+    按当前「智慧水务云」外勤版页面与按钮整理。灰色入口、强制刷卡、是否必拍、是否显示环境照、诊断改数权限等以现场账号与水司配置为准。
+  </footer>
+</body>
+</html>
