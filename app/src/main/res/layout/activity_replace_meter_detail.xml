@@ -199,35 +199,13 @@
                     android:textColor="@color/navy"
                     android:textSize="@dimen/_13ssp" />
 
-                <FrameLayout
-                    android:id="@+id/oldPhotoBox"
-                    android:layout_width="@dimen/_72sdp"
-                    android:layout_height="@dimen/_72sdp"
-                    android:layout_marginTop="@dimen/_8sdp">
-
-                    <ImageView
-                        android:id="@+id/ivOldPhoto"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_input_meter"
-                        android:contentDescription="@string/replacemeter_old_photo"
-                        android:scaleType="centerCrop" />
-
-                    <LinearLayout
-                        android:id="@+id/oldPhotoAdd"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_photo_add"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="@dimen/_22sdp"
-                            android:layout_height="@dimen/_22sdp"
-                            android:contentDescription="@string/readmeter_take_photo"
-                            android:src="@drawable/ic_camera" />
-                    </LinearLayout>
-                </FrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvOldPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="horizontal" />
             </LinearLayout>
 
             <LinearLayout
@@ -349,35 +327,13 @@
                     android:textColor="@color/navy"
                     android:textSize="@dimen/_13ssp" />
 
-                <FrameLayout
-                    android:id="@+id/newPhotoBox"
-                    android:layout_width="@dimen/_72sdp"
-                    android:layout_height="@dimen/_72sdp"
-                    android:layout_marginTop="@dimen/_8sdp">
-
-                    <ImageView
-                        android:id="@+id/ivNewPhoto"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_input_meter"
-                        android:contentDescription="@string/replacemeter_new_photo"
-                        android:scaleType="centerCrop" />
-
-                    <LinearLayout
-                        android:id="@+id/newPhotoAdd"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_photo_add"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="@dimen/_22sdp"
-                            android:layout_height="@dimen/_22sdp"
-                            android:contentDescription="@string/readmeter_take_photo"
-                            android:src="@drawable/ic_camera" />
-                    </LinearLayout>
-                </FrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNewPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="horizontal" />
 
                 <TextView
                     android:layout_width="wrap_content"

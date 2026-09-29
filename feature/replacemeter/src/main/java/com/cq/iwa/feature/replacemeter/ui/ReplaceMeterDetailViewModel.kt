@@ -62,8 +62,6 @@ class ReplaceMeterDetailViewModel @Inject constructor(
         verifyDate: String? = null,
         verifyExpireDate: String? = null,
         installType: String? = null,
-        oldPhoto: String? = null,
-        newPhoto: String? = null,
         latitude: Double? = null,
         longitude: Double? = null,
     ) {
@@ -77,16 +75,6 @@ class ReplaceMeterDetailViewModel @Inject constructor(
             verifyDate = verifyDate ?: meter.verifyDate,
             verifyExpireDate = verifyExpireDate ?: meter.verifyExpireDate,
             installType = installType ?: meter.installType,
-            oldPhotos = if (oldPhoto != null) {
-                listOf(oldPhoto).filter { it.isNotBlank() }
-            } else {
-                meter.oldPhotos
-            },
-            newPhotos = if (newPhoto != null) {
-                listOf(newPhoto).filter { it.isNotBlank() }
-            } else {
-                meter.newPhotos
-            },
             latitude = latitude ?: meter.latitude,
             longitude = longitude ?: meter.longitude,
         )
@@ -108,6 +96,8 @@ class ReplaceMeterDetailViewModel @Inject constructor(
 
     fun canAddEnvPhoto(): Boolean = (entity?.envPhotos?.size ?: 0) < 4
 
+    fun canAddMeterPhoto(old: Boolean): Boolean = meterPhotos(old).size < MAX_METER_PHOTOS
+
     fun addEnvPhoto(path: String) {
         val meter = entity ?: return
         if (meter.envPhotos.size >= 4) {
@@ -118,13 +108,15 @@ class ReplaceMeterDetailViewModel @Inject constructor(
         publish()
     }
 
-    fun setOldPhoto(path: String) {
-        updateDraft(oldPhoto = path)
-        publish()
-    }
-
-    fun setNewPhoto(path: String) {
-        updateDraft(newPhoto = path)
+    fun addMeterPhoto(old: Boolean, path: String) {
+        val meter = entity ?: return
+        val current = meterPhotos(old)
+        if (current.size >= MAX_METER_PHOTOS) {
+            showToast("最多只能上传三张图片")
+            return
+        }
+        val next = current + path
+        entity = if (old) meter.copy(oldPhotos = next) else meter.copy(newPhotos = next)
         publish()
     }
 
@@ -134,15 +126,12 @@ class ReplaceMeterDetailViewModel @Inject constructor(
         publish()
     }
 
-    fun removeOldPhoto() {
+    fun removeMeterPhoto(old: Boolean, index: Int) {
         val meter = entity ?: return
-        entity = meter.copy(oldPhotos = emptyList())
-        publish()
-    }
-
-    fun removeNewPhoto() {
-        val meter = entity ?: return
-        entity = meter.copy(newPhotos = emptyList())
+        val current = meterPhotos(old)
+        if (index !in current.indices) return
+        val next = current.filterIndexed { i, _ -> i != index }
+        entity = if (old) meter.copy(oldPhotos = next) else meter.copy(newPhotos = next)
         publish()
     }
 
@@ -308,8 +297,8 @@ class ReplaceMeterDetailViewModel @Inject constructor(
             newMeterCode = newMeterCode.orEmpty(),
             newReading = newReading?.ifBlank { "0" } ?: "0",
             caliber = caliber?.toString().orEmpty(),
-            oldPhoto = localPhoto(oldPhotos).orEmpty(),
-            newPhoto = localPhoto(newPhotos).orEmpty(),
+            oldPhotos = realPhotos(oldPhotos),
+            newPhotos = realPhotos(newPhotos),
             envPhotos = envPhotos.filter { it.isNotBlank() && it != "button" },
             verifyOrg = verifyOrg.orEmpty(),
             verifyDate = verifyDate.orEmpty(),
@@ -321,8 +310,18 @@ class ReplaceMeterDetailViewModel @Inject constructor(
         )
     }
 
+    private fun meterPhotos(old: Boolean): List<String> =
+        realPhotos(if (old) entity?.oldPhotos.orEmpty() else entity?.newPhotos.orEmpty())
+
     private fun localPhoto(list: List<String>): String? =
-        list.firstOrNull { it.isNotBlank() && it != "button" }
+        realPhotos(list).firstOrNull()
+
+    private fun realPhotos(list: List<String>): List<String> =
+        list.filter { it.isNotBlank() && it != "button" }
+
+    companion object {
+        private const val MAX_METER_PHOTOS = 3
+    }
 }
 
 fun isWaterRead(read: String): Boolean {

@@ -176,6 +176,7 @@
     <string name="replacemeter_old_code">旧表号</string>
     <string name="replacemeter_old_reading">旧表止度</string>
     <string name="replacemeter_old_photo">旧表照片</string>
+    <string name="replacemeter_max_meter_photos">最多只能上传三张图片</string>
     <string name="replacemeter_new_code">新表号</string>
     <string name="replacemeter_new_reading">新表起度</string>
     <string name="replacemeter_new_photo">新表照片</string>

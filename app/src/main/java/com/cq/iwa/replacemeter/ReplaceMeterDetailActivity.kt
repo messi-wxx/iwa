@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.cq.iwa.IwaBaseActivity
 import com.cq.iwa.R
 import com.cq.iwa.calibration.MeterCalibrationNavigator
@@ -27,7 +27,6 @@ import com.cq.iwa.media.EnvImageNavigator
 import com.cq.iwa.readmeter.MeterPhotos
 import com.cq.iwa.readmeter.NfcHelper
 import com.cq.iwa.readmeter.PhotoAdapter
-import com.cq.iwa.readmeter.bindMeterPhoto
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -49,6 +48,8 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
     private lateinit var nfcHelper: NfcHelper
     private lateinit var locationHelper: AmapLocationHelper
     private lateinit var envAdapter: PhotoAdapter
+    private lateinit var oldPhotoAdapter: PhotoAdapter
+    private lateinit var newPhotoAdapter: PhotoAdapter
     private lateinit var bleHelper: ReplaceBleHelper
     private var photoTarget = PhotoTarget.OLD
     private var currentUi: ReplaceMeterDetailUi? = null
@@ -75,6 +76,16 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
             onCode = { viewModel.applyNfcCode(it) },
         )
         observeUiEvents(viewModel)
+        oldPhotoAdapter = meterPhotoAdapter(
+            recycler = { binding.rvOldPhotos },
+            onAdd = { photoTarget = PhotoTarget.OLD; takePhoto() },
+            onDelete = { confirmDeleteMeterPhoto(old = true, index = it) },
+        )
+        newPhotoAdapter = meterPhotoAdapter(
+            recycler = { binding.rvNewPhotos },
+            onAdd = { photoTarget = PhotoTarget.NEW; takePhoto() },
+            onDelete = { confirmDeleteMeterPhoto(old = false, index = it) },
+        )
         envAdapter = PhotoAdapter(
             onAdd = { photoTarget = PhotoTarget.ENV; chooseEnvPhoto() },
             onPreview = { image, position, items ->
@@ -92,6 +103,10 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
                 )
             },
         )
+        binding.rvOldPhotos.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvOldPhotos.adapter = oldPhotoAdapter
+        binding.rvNewPhotos.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvNewPhotos.adapter = newPhotoAdapter
         binding.rvEnvPhotos.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvEnvPhotos.adapter = envAdapter
         binding.btnBack.setOnClickListener { finish() }
@@ -99,16 +114,6 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
         binding.btnSave.setOnClickListener { save() }
         binding.btnBle.setOnClickListener { bleHelper.connectOrScan() }
         binding.btnBuilding.setOnClickListener { openBuilding() }
-        binding.oldPhotoBox.setOnClickListener { photoTarget = PhotoTarget.OLD; takePhoto() }
-        binding.newPhotoBox.setOnClickListener { photoTarget = PhotoTarget.NEW; takePhoto() }
-        binding.oldPhotoBox.setOnLongClickListener {
-            if (binding.oldPhotoAdd.isVisible.not()) confirmDelete(PhotoTarget.OLD)
-            true
-        }
-        binding.newPhotoBox.setOnLongClickListener {
-            if (binding.newPhotoAdd.isVisible.not()) confirmDelete(PhotoTarget.NEW)
-            true
-        }
         binding.tvVerifyDate.setOnClickListener { pickDate(true) }
         binding.tvVerifyExpire.setOnClickListener { pickDate(false) }
         binding.etOldReading.addTextChangedListener(simpleWatcher { viewModel.updateDraft(oldReading = it) })
@@ -172,8 +177,8 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
         }
         binding.oldCard.isVisible = ui.showOld
         binding.newCard.isVisible = ui.showNew
-        bindSinglePhoto(ui.oldPhoto, binding.ivOldPhoto, binding.oldPhotoAdd)
-        bindSinglePhoto(ui.newPhoto, binding.ivNewPhoto, binding.newPhotoAdd)
+        oldPhotoAdapter.submit(ui.oldPhotos)
+        newPhotoAdapter.submit(ui.newPhotos)
         envAdapter.submit(ui.envPhotos)
         val wantHorizontal = ui.installType == "卧式"
         if (wantHorizontal) {
@@ -182,11 +187,6 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
             binding.rbVertical.isChecked = true
         }
         intent.putExtra(ReplaceMeterNavigator.EXTRA_TABLE_ID, ui.tableId)
-    }
-
-    private fun bindSinglePhoto(path: String, image: ImageView, add: android.view.View) {
-        add.isVisible = path.isBlank()
-        image.bindMeterPhoto(path)
     }
 
     private fun pickShowWay() {
@@ -282,6 +282,14 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
             showToast("环境图片最多上传四张")
             return
         }
+        if (photoTarget == PhotoTarget.OLD && !viewModel.canAddMeterPhoto(true)) {
+            showToast(getString(R.string.replacemeter_max_meter_photos))
+            return
+        }
+        if (photoTarget == PhotoTarget.NEW && !viewModel.canAddMeterPhoto(false)) {
+            showToast(getString(R.string.replacemeter_max_meter_photos))
+            return
+        }
         lifecycleScope.launch {
             if (!permissionRequester.request(android.Manifest.permission.CAMERA)) {
                 showToast("您拒绝了使用此功能必须的权限")
@@ -304,11 +312,7 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
                         showToast(getString(R.string.replacemeter_edit_env_fail))
                         return@launch
                     }
-                    if (photoTarget == PhotoTarget.OLD) {
-                        viewModel.setOldPhoto(marked.absolutePath)
-                    } else {
-                        viewModel.setNewPhoto(marked.absolutePath)
-                    }
+                    viewModel.addMeterPhoto(photoTarget == PhotoTarget.OLD, marked.absolutePath)
                 }
                 PhotoTarget.ENV -> openEnvEditor(captured)
             }
@@ -333,21 +337,30 @@ class ReplaceMeterDetailActivity : IwaBaseActivity<ActivityReplaceMeterDetailBin
         return EnvImageNavigator.overlayText(code, addr)
     }
 
-    private fun confirmDelete(target: PhotoTarget) {
+    private fun confirmDeleteMeterPhoto(old: Boolean, index: Int) {
         IwaDialogs.confirm(
             context = this,
             title = getString(R.string.readmeter_delete_photo_title),
             message = getString(R.string.readmeter_delete_photo_message),
             confirmText = getString(R.string.readmeter_delete),
-            onConfirm = {
-                when (target) {
-                    PhotoTarget.OLD -> viewModel.removeOldPhoto()
-                    PhotoTarget.NEW -> viewModel.removeNewPhoto()
-                    PhotoTarget.ENV -> Unit
-                }
-            },
+            onConfirm = { viewModel.removeMeterPhoto(old, index) },
         )
     }
+
+    private fun meterPhotoAdapter(
+        recycler: () -> RecyclerView,
+        onAdd: () -> Unit,
+        onDelete: (Int) -> Unit,
+    ) = PhotoAdapter(
+        onAdd = onAdd,
+        onPreview = { image, position, items ->
+            showImageViewer(image, position, MeterPhotos.sources(items)) {
+                (if (recycler() === binding.rvOldPhotos) oldPhotoAdapter else newPhotoAdapter)
+                    .imageAt(recycler(), it)
+            }
+        },
+        onDelete = onDelete,
+    )
 
     private fun pickDate(verify: Boolean) {
         val picker = MaterialDatePicker.Builder.datePicker()
