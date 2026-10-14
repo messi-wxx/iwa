@@ -8,3 +8,4 @@ release
 *.ap_
 *.aab
 /replay_pid*.log
+hs_err_pid*.log

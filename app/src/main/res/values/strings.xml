@@ -497,4 +497,6 @@
     <string name="inst_import">导入Excel</string>
     <string name="inst_add_meter">新增仪表</string>
     <string name="inst_search">搜索</string>
+    <string name="test">搜索</string>
+
 </resources>
