@@ -280,8 +280,8 @@ class ReplaceMeterSyncEngine @Inject constructor(
                 newPicList = newGuids,
                 installType = meter.installType,
                 verifyOrg = meter.verifyOrg,
-                verifyDate = meter.verifyDate,
-                verifyExpireDate = meter.verifyExpireDate,
+                verifyDate = meter.verifyDate.orEmpty(),
+                verifyExpireDate = meter.verifyExpireDate.orEmpty(),
             )
             if (meter.locationPending && meter.envPhotos.isNotEmpty()) {
                 val envGuids = photoUploader.uploadAll(meter.envPhotos.filter { it.isNotBlank() && it != "button" })
