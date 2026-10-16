@@ -10,6 +10,7 @@ import cn.jiguang.api.utils.JCollectionAuth
 import cn.jpush.android.api.JPushInterface
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.maps.MapsInitializer
+import com.cq.iwa.core.storage.auth.MmkvSessionStore
 import com.tencent.bugly.crashreport.CrashReport
 import timber.log.Timber
 
@@ -34,6 +35,9 @@ object ThirdSdk {
 
     private lateinit var appContext: Context
 
+    @Volatile
+    private var pendingUserId: String? = null
+
     fun initAfterPrivacy(context: Context, isDebug: Boolean) {
         val app = context.applicationContext
         initAmapPrivacy(app)
@@ -48,8 +52,12 @@ object ThirdSdk {
     }
 
     fun setUserId(customerCode: String, userCode: String) {
-        if (!crashInitialized) return
-        CrashReport.setUserId("$customerCode-$userCode")
+        val id = joinUserId(customerCode, userCode) ?: return
+        pendingUserId = id
+        if (!::appContext.isInitialized) return
+        // 带 Context 的重载在 init 前后都会写入。无 Context 的重载在未初始化时直接丢弃，
+        // 设备上会一直留着旧的 ObservableField 对象地址。
+        CrashReport.setUserId(appContext, id)
     }
 
     fun resolveDeviceId(context: Context): String {
@@ -66,7 +74,29 @@ object ThirdSdk {
         CrashReport.initCrashReport(app, BUGLY_APP_ID, isDebug)
         CrashReport.setDeviceModel(app, Build.MODEL)
         plantBuglyTree()
+        applyUserId()
     }
+
+    private fun applyUserId() {
+        if (!::appContext.isInitialized) return
+        val id = pendingUserId ?: savedUserId() ?: return
+        pendingUserId = id
+        CrashReport.setUserId(appContext, id)
+    }
+
+    private fun savedUserId(): String? {
+        val session = MmkvSessionStore()
+        return joinUserId(session.getCustomerCode().orEmpty(), session.getUserCode().orEmpty())
+    }
+
+    private fun joinUserId(customerCode: String, userCode: String): String? {
+        val customer = accountText(customerCode) ?: return null
+        val user = accountText(userCode) ?: return null
+        return "$customer-$user"
+    }
+
+    private fun accountText(value: String): String? =
+        value.trim().takeIf { it.isNotEmpty() && !it.contains("ObservableField") }
 
     private fun isExpectedOfflineFailure(t: Throwable): Boolean {
         var current: Throwable? = t

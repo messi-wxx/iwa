@@ -42,6 +42,7 @@ class LoginViewModel @Inject constructor(
         private set
 
     private var captchaKey: String = ""
+    private var submittedUserCode: String = ""
 
     fun loadCaptcha() {
         launchUiState(_captchaState) {
@@ -68,6 +69,7 @@ class LoginViewModel @Inject constructor(
             password.isBlank() -> showToast(R.string.please_fill_password)
             captchaInput.isBlank() || captchaKey.isBlank() -> showToast(R.string.please_fill_captcha)
             else -> viewModelScope.launch {
+                submittedUserCode = userCode.trim()
                 _loginState.value = UiState.Loading
                 val request = LoginRequest(
                     code = customerCode,
@@ -99,7 +101,7 @@ class LoginViewModel @Inject constructor(
         val user = lastLoginUser ?: return
         launchUiState(_configState) {
             authRepository.persistLogin(user, customerCode, password)
-            ThirdSdk.setUserId(customerCode, user.code)
+            ThirdSdk.setUserId(customerCode, accountCode(user.code))
             when (val result = authRepository.loadAppConfig()) {
                 is ApiResult.Success -> {
                     authRepository.saveUserConfigs(result.data)
@@ -114,7 +116,11 @@ class LoginViewModel @Inject constructor(
         val user = lastLoginUser ?: return
         launchUiState(_firstLoginState) {
             authRepository.persistLogin(user, customerCode, password)
-            ThirdSdk.setUserId(customerCode, user.code)
+            ThirdSdk.setUserId(customerCode, accountCode(user.code))
         }
     }
+
+    private fun accountCode(serverCode: String): String =
+        serverCode.trim().takeIf { it.isNotEmpty() && !it.contains("ObservableField") }
+            ?: submittedUserCode
 }
