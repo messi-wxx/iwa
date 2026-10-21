@@ -1,0 +1,10 @@
+---
+description: 改完代码后不要自动提交 git，由用户手动提交
+alwaysApply: true
+---
+
+# 不要自动提交
+
+改完代码后停在工作区，不要执行 `git add`、`git commit`、`git push`，也不要为了提交去新建分支。
+
+只有用户在当前这条消息里明确说「提交」「commit」时才提交。Diff 面板、自动保存、任务做完，都不算要求提交。

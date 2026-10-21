@@ -20,7 +20,7 @@ object TimberPlanter {
 }
 
 /**
- * Release 环境：WARN 以上写入本地文件。ERROR 且带 Throwable 时由 app 模块上报 Bugly（如接口超时）。
+ * Release 环境：WARN 以上写入本地文件。接口网络失败不经过这里，由拦截器直接上报 Bugly。
  */
 private class ReleaseTree(
     private val context: Context,

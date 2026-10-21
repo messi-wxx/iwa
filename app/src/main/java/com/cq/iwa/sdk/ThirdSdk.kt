@@ -118,6 +118,15 @@ object ThirdSdk {
         return false
     }
 
+    private fun isBuglyHostFailure(t: Throwable): Boolean {
+        var current: Throwable? = t
+        while (current != null) {
+            if (current.message.orEmpty().contains("h.trace.qq.com")) return true
+            current = current.cause
+        }
+        return false
+    }
+
     /**
      * 高德合规：必须先弹出含高德条款的隐私框，用户同意后才能 updatePrivacyAgree(true)。
      */
@@ -140,9 +149,15 @@ object ThirdSdk {
         JPushInterface.init(app)
     }
 
+    /** 接口网络失败上报 Bugly。异常信息里带请求方法和地址，不写本地日志。 */
+    fun reportNetworkError(error: Throwable) {
+        if (!crashInitialized || !isDeviceOnline() || isBuglyHostFailure(error)) return
+        runCatching { CrashReport.postCatchedException(error) }
+    }
+
     /**
-     * 仅把带 Throwable 的 ERROR 上报 Bugly。断网、超时等预期网络失败不上报，
-     * 避免 Bugly 再去解析 h.trace.qq.com 时把 UnknownHostException 打成崩溃。
+     * 带异常的 ERROR 仍可上报。断网类 Timber 日志继续丢掉，
+     * 避免 Bugly 自己访问 h.trace.qq.com 失败时再报一次。
      */
     private fun plantBuglyTree() {
         if (buglyTreePlanted) return

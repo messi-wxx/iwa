@@ -2,32 +2,31 @@ package com.cq.iwa.core.network.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import timber.log.Timber
-import java.net.SocketTimeoutException
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * 只记录接口超时（含方法 + 完整 URL），并走 Timber.e 上报 Bugly。
- * 4xx/5xx 不写本地日志、不上报，避免把业务错误当成崩溃。
+ * 网络失败上报 Bugly，异常信息里带上请求方法和地址。
+ * 不走 Timber，因此不会写入本地日志。4xx/5xx 不抛异常，也不上报。
  */
 @Singleton
-class HttpErrorLogInterceptor @Inject constructor() : Interceptor {
+class HttpErrorLogInterceptor @Inject constructor(
+    private val reporter: NetworkErrorReporter,
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         try {
             return chain.proceed(request)
-        } catch (e: Exception) {
-            if (e.isTimeout()) {
-                val timeout = SocketTimeoutException("${request.method} ${request.url}").apply {
-                    initCause(e)
-                }
-                Timber.e(timeout, "HTTP TIMEOUT %s %s", request.method, request.url)
+        } catch (e: IOException) {
+            if (!e.isCallCanceled()) {
+                reporter.report(IOException("${request.method} ${request.url}", e))
             }
             throw e
         }
     }
 }
 
-private fun Exception.isTimeout(): Boolean = this is SocketTimeoutException
+private fun IOException.isCallCanceled(): Boolean =
+    message.equals("Canceled", ignoreCase = true)
