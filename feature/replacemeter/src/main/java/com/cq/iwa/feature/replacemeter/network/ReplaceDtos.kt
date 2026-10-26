@@ -1,15 +1,6 @@
 package com.cq.iwa.feature.replacemeter.network
 
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.JsonDecoder
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonPrimitive
 import com.cq.iwa.feature.readmeter.network.FlexibleStringSerializer
 
 @Serializable
@@ -64,27 +55,9 @@ data class ReplaceModelDto(
     val newPicList: List<String> = emptyList(),
     val installType: String? = null,
     val verifyOrg: String? = null,
-    @Serializable(with = BlankAsJsonNullSerializer::class)
-    val verifyDate: String = "",
-    @Serializable(with = BlankAsJsonNullSerializer::class)
-    val verifyExpireDate: String = "",
+    val verifyDate: String? = null,
+    val verifyExpireDate: String? = null,
 )
-
-/** 空日期输出 JSON null。字段保持非空 String，避免 explicitNulls=false 时把 null 省略掉。 */
-internal object BlankAsJsonNullSerializer : KSerializer<String> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("BlankAsJsonNull", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: String) {
-        if (value.isBlank()) encoder.encodeNull() else encoder.encodeString(value)
-    }
-
-    override fun deserialize(decoder: Decoder): String {
-        val jsonDecoder = decoder as? JsonDecoder ?: return decoder.decodeString()
-        val element = jsonDecoder.decodeJsonElement()
-        return if (element is JsonNull || element !is JsonPrimitive) "" else element.content
-    }
-}
 
 @Serializable
 data class AttachmentDto(

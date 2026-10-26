@@ -64,7 +64,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 viewModel.loginState.collect { state ->
                     when (state) {
                         is UiState.Loading -> setLoginLoading(true)
-                        is UiState.Success -> handleLoginSuccess(reloginOnly)
+                        is UiState.Success -> {
+                            viewModel.consumeLoginSuccess()
+                            handleLoginSuccess(reloginOnly)
+                        }
                         is UiState.Error -> {
                             setLoginLoading(false)
                             showToast(state.message)
@@ -90,6 +93,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             onLoading = { setLoginLoading(true) },
             onSuccess = {
                 setLoginLoading(false)
+                viewModel.consumeFirstLogin()
                 navigateToResetPassword(
                     oldPassword = binding.etPassword.text?.toString().orEmpty(),
                 )
@@ -168,7 +172,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 showToast(getString(R.string.first_login_change_password))
                 viewModel.prepareFirstLogin(
                     customerCode = binding.etCustomerCode.text?.toString().orEmpty(),
-                    password = binding.etPassword.text?.toString().orEmpty(),
                 )
             }
             1 -> viewModel.downloadConfig(
@@ -189,7 +192,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 putExtra(ResetPasswordActivity.EXTRA_OLD_PASSWORD, oldPassword)
             },
         )
-        finish()
     }
 
     private fun navigateAfterLogin(reloginOnly: Boolean) {

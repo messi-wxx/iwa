@@ -15,7 +15,6 @@ import com.cq.iwa.databinding.ActivitySplashBinding
 import com.cq.iwa.home.HomeActivity
 import com.cq.iwa.legal.Legal
 import com.cq.iwa.login.LoginActivity
-import com.cq.iwa.login.ResetPasswordActivity
 import com.cq.iwa.sdk.ThirdSdk
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -105,9 +104,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         val intent = when (destination) {
             SplashDestination.Home -> Intent(this, HomeActivity::class.java)
             SplashDestination.Login -> Intent(this, LoginActivity::class.java)
-            SplashDestination.ResetPassword -> Intent(this, ResetPasswordActivity::class.java).apply {
-                putExtra(ResetPasswordActivity.EXTRA_FIRST_LOGIN, true)
-            }
         }
         startActivity(intent)
         finish()
@@ -122,5 +118,4 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 enum class SplashDestination {
     Home,
     Login,
-    ResetPassword,
 }

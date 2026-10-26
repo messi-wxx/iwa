@@ -47,20 +47,31 @@ class ResetPasswordViewModel @Inject constructor(
         confirmPassword: String,
     ) {
         launchUiState(_resetState) {
-            val user = authRepository.getCurrentUser()
+            val code = authRepository.pendingUserCode()
+                ?: authRepository.getCurrentUser()?.code
                 ?: throw IllegalStateException("未找到当前用户")
             when (
                 val result = authRepository.resetPassword(
-                    code = user.code,
+                    code = code,
                     oldPassword = oldPassword,
                     password = newPassword,
                     confirmPassword = confirmPassword,
                 )
             ) {
-                is ApiResult.Success -> authRepository.markPasswordChanged(newPassword)
+                is ApiResult.Success -> {
+                    if (authRepository.hasPendingFirstLogin()) {
+                        authRepository.completeFirstLogin(newPassword)
+                    } else {
+                        authRepository.markPasswordChanged(newPassword)
+                    }
+                }
                 is ApiResult.Error -> throw IllegalStateException(result.message)
             }
         }
+    }
+
+    suspend fun abandonFirstLogin() {
+        authRepository.abandonFirstLogin()
     }
 
     fun downloadConfigAfterFirstReset() {

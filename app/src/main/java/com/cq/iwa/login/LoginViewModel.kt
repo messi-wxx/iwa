@@ -112,12 +112,20 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun prepareFirstLogin(customerCode: String, password: String) {
+    fun prepareFirstLogin(customerCode: String) {
         val user = lastLoginUser ?: return
         launchUiState(_firstLoginState) {
-            authRepository.persistLogin(user, customerCode, password)
+            authRepository.stageFirstLogin(user, customerCode)
             ThirdSdk.setUserId(customerCode, accountCode(user.code))
         }
+    }
+
+    fun consumeLoginSuccess() {
+        _loginState.value = UiState.Idle
+    }
+
+    fun consumeFirstLogin() {
+        _firstLoginState.value = UiState.Idle
     }
 
     private fun accountCode(serverCode: String): String =

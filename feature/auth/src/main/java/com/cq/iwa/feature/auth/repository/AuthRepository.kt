@@ -35,6 +35,9 @@ class AuthRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
 
+    /** 本次登录接口返回的首次登录，只活在当前进程，不写入本地用户。 */
+    private var pendingFirstLogin: PendingFirstLogin? = null
+
     suspend fun getCaptcha(): ApiResult<CaptchaDto> = withContext(ioDispatcher) {
         ApiExceptionHandler.safeApiCall { portalPlainApi.getCaptcha() }
     }
@@ -81,6 +84,50 @@ class AuthRepository @Inject constructor(
         sessionStore.saveUserCode(dto.code)
     }
 
+    /**
+     * 登录接口返回首次登录时，只把令牌放到当前进程，供改密接口使用。
+     * 改密成功前不写入当前用户，进程结束后启动页会回到登录页。
+     */
+    suspend fun stageFirstLogin(
+        dto: LoginUserDto,
+        customerCode: String,
+    ) = withContext(ioDispatcher) {
+        pendingFirstLogin = PendingFirstLogin(dto, customerCode)
+        sessionStore.saveToken(dto.token)
+        sessionStore.saveCustomerCode(customerCode)
+        sessionStore.saveUserCode(dto.code)
+    }
+
+    suspend fun hasPendingFirstLogin(): Boolean = withContext(ioDispatcher) {
+        pendingFirstLogin != null
+    }
+
+    suspend fun pendingUserCode(): String? = withContext(ioDispatcher) {
+        pendingFirstLogin?.user?.code?.takeIf { it.isNotBlank() }
+    }
+
+    suspend fun abandonFirstLogin() = withContext(ioDispatcher) {
+        if (pendingFirstLogin == null) return@withContext
+        pendingFirstLogin = null
+        val user = userDao.getCurrentUser()
+        if (user != null && user.state == 1) {
+            sessionStore.saveToken(user.token)
+            sessionStore.saveCustomerCode(user.customerCode)
+            sessionStore.saveUserCode(user.code)
+        } else {
+            if (user != null) {
+                userDao.clearCurrentUserFlag()
+            }
+            sessionStore.clearSession()
+        }
+    }
+
+    suspend fun completeFirstLogin(newPassword: String) = withContext(ioDispatcher) {
+        val pending = pendingFirstLogin ?: return@withContext
+        persistLogin(pending.user.copy(state = 1), pending.customerCode, newPassword)
+        pendingFirstLogin = null
+    }
+
     suspend fun saveUserConfigs(configs: List<UserConfigDto>) = withContext(ioDispatcher) {
         userConfigDao.clearUserConfigs()
         val entities = configs.map {
@@ -105,6 +152,14 @@ class AuthRepository @Inject constructor(
             entities.add(UserConfigEntity(2, "", "", "forceNfcReading", "no"))
         }
         userConfigDao.insertAll(entities)
+    }
+
+    /** 冷启动时没有当前用户，清掉首次登录暂存的令牌。 */
+    suspend fun clearDanglingSession() = withContext(ioDispatcher) {
+        pendingFirstLogin = null
+        if (userDao.getCurrentUser() == null) {
+            sessionStore.clearSession()
+        }
     }
 
     suspend fun restoreSessionFromDb() = withContext(ioDispatcher) {
@@ -152,6 +207,11 @@ class AuthRepository @Inject constructor(
         val value = if (enabled) "yes" else "no"
         userConfigDao.updateValue("autoNext", value)
     }
+
+    private data class PendingFirstLogin(
+        val user: LoginUserDto,
+        val customerCode: String,
+    )
 
     fun decodeMenus(menuJson: String?): List<MenuDto> {
         if (menuJson.isNullOrBlank()) return emptyList()

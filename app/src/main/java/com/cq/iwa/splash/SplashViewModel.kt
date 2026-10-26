@@ -24,14 +24,19 @@ class SplashViewModel @Inject constructor(
     fun bootstrap() {
         launchUiState(_uiState) {
             val user = authRepository.restoreSessionFromDb()
-            if (user != null) {
-                ThirdSdk.setUserId(user.customerCode, user.code)
-            }
             when {
-                user == null -> SplashDestination.Login
-                user.state == 1 -> SplashDestination.Home
-                user.state == 0 -> SplashDestination.ResetPassword
-                else -> SplashDestination.Login
+                user != null && user.state == 1 -> {
+                    ThirdSdk.setUserId(user.customerCode, user.code)
+                    SplashDestination.Home
+                }
+                user != null -> {
+                    authRepository.logout()
+                    SplashDestination.Login
+                }
+                else -> {
+                    authRepository.clearDanglingSession()
+                    SplashDestination.Login
+                }
             }
         }
     }

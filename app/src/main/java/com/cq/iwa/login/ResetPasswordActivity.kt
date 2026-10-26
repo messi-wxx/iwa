@@ -5,19 +5,24 @@ import android.os.Bundle
 import android.text.InputType
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.cq.iwa.IwaBaseActivity
 import com.cq.iwa.R
 import com.cq.iwa.core.ui.ext.collectUiState
 import com.cq.iwa.databinding.ActivityResetPasswordBinding
 import com.cq.iwa.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ResetPasswordActivity : IwaBaseActivity<ActivityResetPasswordBinding>() {
 
     private val viewModel: ResetPasswordViewModel by viewModels()
+    private var isFirstLogin = false
+    private var firstLoginCompleted = false
     private var oldVisible = false
     private var newVisible = false
     private var confirmVisible = false
@@ -30,12 +35,15 @@ class ResetPasswordActivity : IwaBaseActivity<ActivityResetPasswordBinding>() {
         ActivityResetPasswordBinding.inflate(layoutInflater)
 
     override fun initView(savedInstanceState: Bundle?) {
-        val isFirstLogin = intent.getBooleanExtra(EXTRA_FIRST_LOGIN, false)
+        isFirstLogin = intent.getBooleanExtra(EXTRA_FIRST_LOGIN, false)
         val oldPassword = intent.getStringExtra(EXTRA_OLD_PASSWORD).orEmpty()
 
         binding.tvTitle.text = getString(R.string.reset_password_title)
-        binding.btnBack.isVisible = !isFirstLogin
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.isVisible = true
+        binding.btnBack.setOnClickListener { leavePage() }
+        if (isFirstLogin) {
+            onBackPressedDispatcher.addCallback(this) { leavePage() }
+        }
         if (oldPassword.isNotBlank()) {
             binding.etOldPassword.setText(oldPassword)
         }
@@ -105,6 +113,7 @@ class ResetPasswordActivity : IwaBaseActivity<ActivityResetPasswordBinding>() {
 
     private fun handleResetSuccess(isFirstLogin: Boolean) {
         if (isFirstLogin) {
+            firstLoginCompleted = true
             viewModel.downloadConfigAfterFirstReset()
         } else {
             setResetLoading(false)
@@ -113,10 +122,27 @@ class ResetPasswordActivity : IwaBaseActivity<ActivityResetPasswordBinding>() {
         }
     }
 
+    private fun leavePage() {
+        if (isFirstLogin && firstLoginCompleted) return
+        if (isFirstLogin) {
+            lifecycleScope.launch {
+                viewModel.abandonFirstLogin()
+                finish()
+            }
+            return
+        }
+        finish()
+    }
+
     private fun navigateToHome() {
         setResetLoading(false)
+        firstLoginCompleted = true
         showToast(getString(R.string.reset_password_success))
-        startActivity(Intent(this, HomeActivity::class.java))
+        startActivity(
+            Intent(this, HomeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            },
+        )
         finishAfterToast()
     }
 

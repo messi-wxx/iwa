@@ -280,8 +280,8 @@ class ReplaceMeterSyncEngine @Inject constructor(
                 newPicList = newGuids,
                 installType = meter.installType,
                 verifyOrg = meter.verifyOrg,
-                verifyDate = meter.verifyDate.orEmpty(),
-                verifyExpireDate = meter.verifyExpireDate.orEmpty(),
+                verifyDate = meter.verifyDate.blankToNull(),
+                verifyExpireDate = meter.verifyExpireDate.blankToNull(),
             )
             if (meter.locationPending && meter.envPhotos.isNotEmpty()) {
                 val envGuids = photoUploader.uploadAll(meter.envPhotos.filter { it.isNotBlank() && it != "button" })
@@ -340,6 +340,8 @@ class ReplaceMeterSyncEngine @Inject constructor(
             },
         )
     }
+
+    private fun String?.blankToNull(): String? = takeIf { !it.isNullOrBlank() }
 
     private fun percent(index: Int, total: Int): String {
         if (total <= 0) return ""
