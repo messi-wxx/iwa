@@ -59,6 +59,7 @@ data class VerificationResultDto(
 @Serializable
 data class ResetPasswordRequest(
     val code: String,
+    val customerCode: String,
     val oldPassword: String,
     val password: String,
     val confirmPassword: String,

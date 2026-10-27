@@ -106,6 +106,10 @@ class AuthRepository @Inject constructor(
         pendingFirstLogin?.user?.code?.takeIf { it.isNotBlank() }
     }
 
+    suspend fun pendingCustomerCode(): String? = withContext(ioDispatcher) {
+        pendingFirstLogin?.customerCode?.takeIf { it.isNotBlank() }
+    }
+
     suspend fun abandonFirstLogin() = withContext(ioDispatcher) {
         if (pendingFirstLogin == null) return@withContext
         pendingFirstLogin = null
@@ -177,6 +181,7 @@ class AuthRepository @Inject constructor(
 
     suspend fun resetPassword(
         code: String,
+        customerCode: String,
         oldPassword: String,
         password: String,
         confirmPassword: String,
@@ -185,6 +190,7 @@ class AuthRepository @Inject constructor(
             portalApi.resetPassword(
                 ResetPasswordRequest(
                     code = code,
+                    customerCode = customerCode,
                     oldPassword = oldPassword,
                     password = password,
                     confirmPassword = confirmPassword,

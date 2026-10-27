@@ -47,12 +47,18 @@ class ResetPasswordViewModel @Inject constructor(
         confirmPassword: String,
     ) {
         launchUiState(_resetState) {
-            val code = authRepository.pendingUserCode()
-                ?: authRepository.getCurrentUser()?.code
+            val pendingUserCode = authRepository.pendingUserCode()
+            val currentUser = if (pendingUserCode == null) authRepository.getCurrentUser() else null
+            val code = pendingUserCode
+                ?: currentUser?.code
                 ?: throw IllegalStateException("未找到当前用户")
+            val customerCode = authRepository.pendingCustomerCode()
+                ?: currentUser?.customerCode?.takeIf { it.isNotBlank() }
+                ?: throw IllegalStateException("未找到水司代码")
             when (
                 val result = authRepository.resetPassword(
                     code = code,
+                    customerCode = customerCode,
                     oldPassword = oldPassword,
                     password = newPassword,
                     confirmPassword = confirmPassword,
