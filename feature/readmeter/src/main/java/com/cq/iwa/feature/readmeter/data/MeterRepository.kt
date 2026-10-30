@@ -48,7 +48,7 @@ class MeterRepository @Inject constructor(
         val fromConfig = userConfigDao.findAllByName("MobileReadRemark")
             .mapNotNull { it.configValue }
             .filter { it.isNotBlank() }
-        val list = fromConfig.ifEmpty { listOf("正常抄表", "估抄", "表具污损", "房屋没人") }
+        val list = fromConfig.ifEmpty { listOf("正常抄表", "估抄", "表具污损", "读数异常", "房屋没人") }
         return if (list.any { it == "其它" }) list else list + "其它"
     }
 

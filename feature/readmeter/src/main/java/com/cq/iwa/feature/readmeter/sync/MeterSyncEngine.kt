@@ -529,7 +529,7 @@ class MeterSyncEngine @Inject constructor(
         platform: MeterPlatform,
         reading: String?,
     ) = if (platform == MeterPlatform.BCP) {
-        reading?.let { JsonPrimitive(it) }
+        reading?.takeIf { it.isNotEmpty() }?.let { JsonPrimitive(it) }
     } else {
         reading?.toDoubleOrNull()?.let { JsonPrimitive(it) }
     }

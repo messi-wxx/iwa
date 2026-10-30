@@ -101,7 +101,7 @@
                     android:layout_marginEnd="@dimen/_6sdp"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/_12ssp"
-                    tools:text="王小祥" />
+                    tools:text="" />
 
                 <ImageView
                     android:layout_width="@dimen/_18sdp"
@@ -231,8 +231,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_6sdp"
                     android:textColor="@color/text_secondary"
-                    android:textSize="@dimen/_12ssp"
-                    tools:text="32.6 MB" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <ImageView
                     android:layout_width="@dimen/_18sdp"
@@ -314,8 +313,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_6sdp"
                     android:textColor="@color/text_secondary"
-                    android:textSize="@dimen/_12ssp"
-                    tools:text="当前版本 1.0.0" />
+                    android:textSize="@dimen/_12ssp"/>
 
                 <ImageView
                     android:layout_width="@dimen/_18sdp"
