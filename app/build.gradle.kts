@@ -14,7 +14,7 @@ android {
         applicationId = "com.cq.iwa"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
+        versionCode = 202611021
         versionName = "v1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["JPUSH_PKGNAME"] = "com.cq.iwa"
@@ -62,9 +62,9 @@ android {
             val outputImpl = output as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
             if (outputImpl != null) {
                 if (variant.buildType.name == "release") {
-                    outputImpl.outputFileName = "iwa_${variant.versionName}.apk"
+                    outputImpl.outputFileName = "aql_iwa_${variant.versionName}.apk"
                 } else {
-                    outputImpl.outputFileName = "iwa_${variant.versionName}_debug.apk"
+                    outputImpl.outputFileName = "aql_iwa_${variant.versionName}_debug.apk"
                 }
             }
         }
