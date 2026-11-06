@@ -68,6 +68,7 @@ class HomeViewModel @Inject constructor(
                     aliases = setOf("meterLocation"),
                 ),
                 template("管网监测", "pipelineNetworkMonitoring", R.drawable.ic_home_dma, enabledPaths),
+                template("DMA分区监测", "DMA", R.drawable.ic_home_dma, enabledPaths),
                 template("报装工单", "installation", R.drawable.ic_home_scene, enabledPaths),
             )
             HomeUiModel(userName = user.name, functions = functions)

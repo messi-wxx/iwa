@@ -20,6 +20,7 @@ import com.cq.iwa.calibration.MeterCalibrationNavigator
 import com.cq.iwa.databinding.ActivityHomeBinding
 import com.cq.iwa.databinding.ItemHomeFunctionBinding
 import com.cq.iwa.diagnose.DiagnoseNavigator
+import com.cq.iwa.dma.DmaNavigator
 import com.cq.iwa.readmeter.MeterNavigator
 import com.cq.iwa.replacemeter.ReplaceMeterNavigator
 import com.cq.iwa.installation.InstNavigator
@@ -67,6 +68,7 @@ class HomeActivity : IwaBaseActivity<ActivityHomeBinding>() {
                         "sceneService" -> SceneServiceNavigator.open(this)
                         "pipelineNetworkMonitoring" -> PipelineNavigator.openFollow(this)
                         "installation" -> InstNavigator.openPending(this)
+                        "DMA" -> DmaNavigator.openList(this)
                         else -> showToast(getString(R.string.home_coming_soon) + ": ${item.title}")
                     }
                 } else {

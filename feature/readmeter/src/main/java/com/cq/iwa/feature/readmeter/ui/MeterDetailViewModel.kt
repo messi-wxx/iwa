@@ -118,6 +118,16 @@ class MeterDetailViewModel @Inject constructor(
     }
 
     suspend fun addCapturedPhoto(file: File, env: Boolean = false): Boolean {
+        if (!env) {
+            val marked = runCatching {
+                PhotoProcessor.addReadingWatermark(file)
+            }.isSuccess
+            if (!marked) {
+                showToast("水印添加失败")
+                file.delete()
+                return false
+            }
+        }
         val ok = PhotoProcessor.compressLocalFile(file.absolutePath)
         if (!ok) {
             showToast("图片压缩失败")

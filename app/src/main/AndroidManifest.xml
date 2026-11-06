@@ -271,6 +271,19 @@
         <activity android:name=".installation.InstMeterRecordsActivity" android:exported="false" />
         <activity android:name=".installation.InstLogActivity" android:exported="false" />
 
+        <activity
+            android:name=".dma.DmaListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".dma.DmaDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".dma.DmaCompareActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
         <service
             android:name=".pipeline.PipelineAlarmService"
             android:exported="false"

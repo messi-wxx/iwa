@@ -92,6 +92,7 @@ dependencies {
     implementation(project(":feature:sceneservice"))
     implementation(project(":feature:pipeline"))
     implementation(project(":feature:installation"))
+    implementation(project(":feature:dma"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -18,19 +18,26 @@ object PhotoProcessor {
     private val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
 
     suspend fun addTimeWatermark(source: File, dest: File = source): File = withContext(Dispatchers.IO) {
+        stamp(source, dest) { canvas, width, height ->
+            PhotoOverlay.drawTimestamp(canvas, width, height, timeFormat.format(Date()))
+        }
+    }
+
+    suspend fun addReadingWatermark(source: File, dest: File = source): File = withContext(Dispatchers.IO) {
+        stamp(source, dest) { canvas, width, height ->
+            PhotoOverlay.drawCheckIn(canvas, width, height, "抄表打卡", timeFormat.format(Date()))
+        }
+    }
+
+    private fun stamp(source: File, dest: File, draw: (Canvas, Int, Int) -> Unit): File {
         val bitmap = decodeOriented(source.absolutePath)
         val mutable = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         if (mutable != bitmap) bitmap.recycle()
         val canvas = Canvas(mutable)
-        PhotoOverlay.drawTimestamp(
-            canvas = canvas,
-            imageWidth = mutable.width,
-            imageHeight = mutable.height,
-            text = timeFormat.format(Date()),
-        )
+        draw(canvas, mutable.width, mutable.height)
         writeJpeg(mutable, dest, 100)
         if (!mutable.isRecycled) mutable.recycle()
-        dest
+        return dest
     }
 
     suspend fun compressLocalFile(path: String): Boolean {
