@@ -64,11 +64,14 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/colTotal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/_4sdp">
 
                 <TextView
                     android:id="@+id/tvTotal"
@@ -87,11 +90,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/colNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/_4sdp">
 
                 <TextView
                     android:id="@+id/tvNormal"
@@ -110,11 +116,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/colWarn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/_4sdp">
 
                 <TextView
                     android:id="@+id/tvWarn"
@@ -133,11 +142,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/colSevere"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/_4sdp">
 
                 <TextView
                     android:id="@+id/tvSevere"
@@ -163,150 +175,116 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/_11ssp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/queryBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/summaryCard">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/btnCompare"
+            <EditText
+                android:id="@+id/etSearch"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_36sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_primary_button"
-                android:gravity="center"
-                android:text="@string/dma_compare"
-                android:textColor="@color/white"
+                android:background="@drawable/bg_input_meter"
+                android:hint="@string/dma_search_hint"
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:paddingHorizontal="@dimen/_12sdp"
+                android:textColor="@color/navy"
+                android:textColorHint="@color/text_hint"
                 android:textSize="@dimen/_13ssp" />
 
+            <ImageButton
+                android:id="@+id/btnSearch"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:background="@drawable/bg_input_meter"
+                android:contentDescription="@string/dma_search"
+                android:padding="@dimen/_10sdp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_search" />
+
             <TextView
-                android:id="@+id/btnYoy"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_36sdp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_soft_button"
+                android:id="@+id/btnSort"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:background="@drawable/bg_input_meter"
+                android:drawablePadding="@dimen/_2sdp"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:text="@string/dma_yoy"
-                android:textColor="@color/primary"
-                android:textSize="@dimen/_13ssp" />
+                android:maxWidth="@dimen/_88sdp"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:text="@string/dma_sort_status_short"
+                android:textColor="@color/navy"
+                android:textSize="@dimen/_12ssp" />
+
+            <FrameLayout
+                android:id="@+id/btnFilter"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:background="@drawable/bg_input_meter"
+                android:contentDescription="@string/dma_filter"
+                android:foreground="?attr/selectableItemBackground">
+
+                <ImageView
+                    android:id="@+id/ivFilter"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/dma_filter"
+                    android:src="@drawable/ic_filter" />
+
+                <TextView
+                    android:id="@+id/tvFilterBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:background="@drawable/bg_dma_badge"
+                    android:gravity="center"
+                    android:minWidth="@dimen/_14sdp"
+                    android:minHeight="@dimen/_14sdp"
+                    android:paddingHorizontal="@dimen/_3sdp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_8ssp"
+                    android:visibility="gone" />
+            </FrameLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:background="@drawable/bg_input_meter"
-        android:hint="@string/dma_search_hint"
-        android:imeOptions="actionSearch"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:paddingHorizontal="@dimen/_12sdp"
-        android:textColor="@color/navy"
-        android:textColorHint="@color/text_hint"
-        android:textSize="@dimen/_13ssp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/summaryCard" />
+        <HorizontalScrollView
+            android:id="@+id/tagScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:scrollbars="none"
+            android:visibility="gone">
 
-    <LinearLayout
-        android:id="@+id/statusRow"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etSearch">
-
-        <TextView
-            android:id="@+id/chipAll"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/dma_filter_all"
-            android:textSize="@dimen/_12ssp" />
-
-        <TextView
-            android:id="@+id/chipNormal"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/dma_normal"
-            android:textSize="@dimen/_12ssp" />
-
-        <TextView
-            android:id="@+id/chipWarn"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/dma_warn"
-            android:textSize="@dimen/_12ssp" />
-
-        <TextView
-            android:id="@+id/chipSevere"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/dma_severe"
-            android:textSize="@dimen/_12ssp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/filterRow"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statusRow">
-
-        <TextView
-            android:id="@+id/tvSort"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_soft_button"
-            android:gravity="center"
-            android:textColor="@color/primary"
-            android:textSize="@dimen/_12ssp" />
-
-        <TextView
-            android:id="@+id/tvLevel"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_soft_button"
-            android:gravity="center"
-            android:textColor="@color/primary"
-            android:textSize="@dimen/_12ssp" />
-
-        <TextView
-            android:id="@+id/tvParent"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_soft_button"
-            android:gravity="center"
-            android:textColor="@color/primary"
-            android:textSize="@dimen/_12ssp" />
+            <LinearLayout
+                android:id="@+id/tagBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
     </LinearLayout>
 
     <FrameLayout
@@ -316,7 +294,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filterRow">
+        app:layout_constraintTop_toBottomOf="@id/queryBar">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"
@@ -333,7 +311,11 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:paddingHorizontal="@dimen/_16sdp"
-                android:paddingBottom="@dimen/_16sdp" />
+                android:paddingBottom="@dimen/_72sdp" />
+
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
         <TextView
@@ -346,4 +328,16 @@
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/_13ssp" />
     </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabCompare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16sdp"
+        android:text="@string/dma_compare"
+        android:textColor="@color/white"
+        android:alpha="0.8"
+        app:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

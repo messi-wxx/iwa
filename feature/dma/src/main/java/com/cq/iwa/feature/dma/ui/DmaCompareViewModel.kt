@@ -34,6 +34,11 @@ class DmaCompareViewModel @Inject constructor() : BaseViewModel() {
         )
     }
 
+    fun setMode(mode: DmaCompareMode) {
+        if (_ui.value.mode == mode) return
+        _ui.value = _ui.value.copy(mode = mode)
+    }
+
     fun setMetric(metric: DmaMetric) {
         _ui.value = _ui.value.copy(metric = metric)
     }

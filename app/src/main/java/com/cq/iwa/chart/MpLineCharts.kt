@@ -97,4 +97,55 @@ object MpLineCharts {
         chart.marker = markerView
         chart.invalidate()
     }
+
+    fun bindLines(
+        chart: LineChart,
+        labels: List<String>,
+        lines: List<Pair<String, List<Float>>>,
+        colors: List<Int>,
+        dualAxis: Boolean = false,
+    ) {
+        if (labels.isEmpty() || lines.isEmpty()) {
+            chart.clear()
+            chart.axisRight.isEnabled = false
+            chart.invalidate()
+            return
+        }
+        chart.axisRight.isEnabled = dualAxis
+        val sets = lines.mapIndexed { index, (name, values) ->
+            val entries = labels.indices.map { Entry(it.toFloat(), values.getOrElse(it) { 0f }) }
+            LineDataSet(entries, name).apply {
+                val colorInt = colors.getOrElse(index) { Color.parseColor("#2196F3") }
+                color = colorInt
+                setCircleColor(colorInt)
+                lineWidth = 2f
+                circleRadius = 2f
+                setDrawCircleHole(false)
+                setDrawValues(false)
+                mode = LineDataSet.Mode.CUBIC_BEZIER
+                axisDependency = if (dualAxis && index > 0) {
+                    com.github.mikephil.charting.components.YAxis.AxisDependency.RIGHT
+                } else {
+                    com.github.mikephil.charting.components.YAxis.AxisDependency.LEFT
+                }
+            }
+        }
+        chart.xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                val index = value.toInt()
+                if (index == 0 || index == labels.lastIndex || labels.size <= 6) {
+                    return labels.getOrNull(index).orEmpty()
+                }
+                return ""
+            }
+        }
+        chart.data = LineData(sets)
+        val markerPoints = labels.mapIndexed { index, label ->
+            MpLinePoint(label, lines.first().second.getOrElse(index) { 0f })
+        }
+        val markerView = ChartMarkerView(chart.context, R.layout.chart_marker, markerPoints)
+        markerView.chartView = chart
+        chart.marker = markerView
+        chart.invalidate()
+    }
 }

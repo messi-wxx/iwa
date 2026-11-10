@@ -33,6 +33,8 @@ class DmaCompareActivity : IwaBaseActivity<ActivityDmaCompareBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         observeUiEvents(viewModel)
         binding.btnBack.setOnClickListener { finish() }
+        binding.tabCompare.setOnClickListener { viewModel.setMode(DmaCompareMode.COMPARE) }
+        binding.tabYoy.setOnClickListener { viewModel.setMode(DmaCompareMode.YOY) }
         binding.tvLeft.setOnClickListener { pickPartition(left = true) }
         binding.tvRight.setOnClickListener { pickPartition(left = false) }
         buildMetrics()
@@ -71,10 +73,7 @@ class DmaCompareActivity : IwaBaseActivity<ActivityDmaCompareBinding>() {
         lifecycleScope.launch {
             viewModel.ui.collect { render(it) }
         }
-        val mode = runCatching {
-            DmaCompareMode.valueOf(intent.getStringExtra(DmaNavigator.EXTRA_MODE).orEmpty())
-        }.getOrDefault(DmaCompareMode.COMPARE)
-        viewModel.load(mode)
+        viewModel.load(DmaCompareMode.COMPARE)
     }
 
     private fun buildMetrics() {
@@ -99,7 +98,8 @@ class DmaCompareActivity : IwaBaseActivity<ActivityDmaCompareBinding>() {
 
     private fun render(ui: DmaCompareUi) {
         val yoy = ui.mode == DmaCompareMode.YOY
-        binding.tvTitle.text = getString(if (yoy) R.string.dma_yoy_title else R.string.dma_compare_title)
+        styleMode(binding.tabCompare, !yoy)
+        styleMode(binding.tabYoy, yoy)
         binding.tvRight.isVisible = !yoy
         binding.tvCompareLabel.isVisible = yoy
         binding.compareRange.root.isVisible = yoy
@@ -123,6 +123,11 @@ class DmaCompareActivity : IwaBaseActivity<ActivityDmaCompareBinding>() {
             chip.setBackgroundResource(if (selected) R.drawable.bg_chip_uploaded else R.drawable.bg_chip_unread)
             chip.setTextColor(ContextCompat.getColor(this, if (selected) R.color.primary else R.color.text_secondary))
         }
+    }
+
+    private fun styleMode(view: TextView, selected: Boolean) {
+        view.setBackgroundResource(if (selected) R.drawable.bg_primary_button else R.drawable.bg_dma_pill)
+        view.setTextColor(ContextCompat.getColor(this, if (selected) R.color.white else R.color.text_secondary))
     }
 
     private fun pickPartition(left: Boolean) {

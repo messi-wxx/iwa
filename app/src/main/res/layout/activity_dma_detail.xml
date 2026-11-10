@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background"
@@ -19,8 +20,7 @@
             android:contentDescription="@string/dma_detail_title"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            xmlns:app="http://schemas.android.com/apk/res-auto" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -32,11 +32,25 @@
             android:textColor="@color/navy"
             android:textSize="@dimen/_16ssp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/btnBack"
+            app:layout_constraintBottom_toTopOf="@id/tvSubTitle"
             app:layout_constraintEnd_toStartOf="@id/btnRefresh"
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintTop_toTopOf="@id/btnBack"
-            xmlns:app="http://schemas.android.com/apk/res-auto" />
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/tvSubTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toBottomOf="@id/btnBack"
+            app:layout_constraintEnd_toStartOf="@id/btnRefresh"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
         <ImageButton
             android:id="@+id/btnRefresh"
@@ -48,15 +62,13 @@
             android:src="@drawable/ic_refresh"
             app:layout_constraintBottom_toBottomOf="@id/btnBack"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnBack"
-            xmlns:app="http://schemas.android.com/apk/res-auto" />
+            app:layout_constraintTop_toTopOf="@id/btnBack" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,84 +77,340 @@
             android:paddingHorizontal="@dimen/_16sdp"
             android:paddingBottom="@dimen/_16sdp">
 
-            <TextView
-                android:id="@+id/tvInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_meter_card"
-                android:padding="@dimen/_12sdp"
-                android:textColor="@color/text_secondary"
-                android:textSize="@dimen/_12ssp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMetrics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:nestedScrollingEnabled="false" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:orientation="horizontal">
+                android:background="@drawable/bg_meter_card"
+                android:orientation="vertical"
+                android:padding="@dimen/_12sdp">
 
-                <TextView
-                    android:id="@+id/tabTrend"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_marginEnd="@dimen/_6sdp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/dma_trend"
-                    android:textSize="@dimen/_12ssp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tabDaily"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_marginEnd="@dimen/_6sdp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/dma_daily"
-                    android:textSize="@dimen/_12ssp" />
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_16ssp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tabMonth"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_marginEnd="@dimen/_6sdp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/dma_month"
-                    android:textSize="@dimen/_12ssp" />
+                    <LinearLayout
+                        android:id="@+id/statusBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dma_pill"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="@dimen/_8sdp"
+                        android:paddingVertical="@dimen/_3sdp">
 
-                <TextView
-                    android:id="@+id/tabFlow"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/dma_flow"
-                    android:textSize="@dimen/_12ssp" />
+                        <View
+                            android:id="@+id/vStatusDot"
+                            android:layout_width="@dimen/_6sdp"
+                            android:layout_height="@dimen/_6sdp"
+                            android:background="@drawable/bg_dma_badge" />
+
+                        <TextView
+                            android:id="@+id/tvStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp">
+
+                    <androidx.constraintlayout.helper.widget.Flow
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:constraint_referenced_ids="tagCode,tagLevel,tagParent,tagUser,tagNight"
+                        app:flow_horizontalBias="0"
+                        app:flow_horizontalGap="@dimen/_6sdp"
+                        app:flow_horizontalStyle="packed"
+                        app:flow_verticalGap="@dimen/_6sdp"
+                        app:flow_wrapMode="chain"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tagCode"
+                        style="@style/DmaInfoTag" />
+
+                    <TextView
+                        android:id="@+id/tagLevel"
+                        style="@style/DmaInfoTag" />
+
+                    <TextView
+                        android:id="@+id/tagParent"
+                        style="@style/DmaInfoTag" />
+
+                    <TextView
+                        android:id="@+id/tagUser"
+                        style="@style/DmaInfoTag" />
+
+                    <TextView
+                        android:id="@+id/tagNight"
+                        style="@style/DmaInfoTag" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/panelTrend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical">
+                android:background="@drawable/bg_meter_card"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_8sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_12sdp">
+
+                    <TextView
+                        android:id="@+id/tvLatest"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dma_tile_hint"
+                        android:textColor="@color/text_hint"
+                        android:textSize="@dimen/_10ssp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTiles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@color/dma_grid_line"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_meter_card"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_8sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_12sdp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/dma_trend_title"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvRangeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_hint"
+                        android:textSize="@dimen/_10ssp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp">
+
+                    <TextView
+                        android:id="@+id/btnTrendPrev"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:background="@drawable/bg_dma_pill"
+                        android:gravity="center"
+                        android:text="&lt;"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/trendTabs"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_6sdp"
+                        android:layout_weight="1"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tabDay"
+                                style="@style/DmaChip"
+                                android:text="@string/dma_tab_day" />
+
+                            <TextView
+                                android:id="@+id/tabNight"
+                                style="@style/DmaChip"
+                                android:text="@string/dma_tab_night" />
+
+                            <TextView
+                                android:id="@+id/tabMin"
+                                style="@style/DmaChip"
+                                android:text="@string/dma_tab_min" />
+
+                            <TextView
+                                android:id="@+id/tabRatio"
+                                style="@style/DmaChip"
+                                android:text="@string/dma_tab_ratio" />
+
+                            <TextView
+                                android:id="@+id/tabLeak"
+                                style="@style/DmaChip"
+                                android:text="@string/dma_tab_leak" />
+
+                            <TextView
+                                android:id="@+id/tabMonth"
+                                style="@style/DmaChip"
+                                android:text="@string/dma_tab_month" />
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:id="@+id/btnTrendNext"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:background="@drawable/bg_dma_pill"
+                        android:gravity="center"
+                        android:text="&gt;"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_14ssp" />
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:id="@+id/trendDayRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chipTrend7"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_days_7" />
+
+                        <TextView
+                            android:id="@+id/chipTrend15"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_days_15" />
+
+                        <TextView
+                            android:id="@+id/chipTrend30"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_days_30" />
+
+                        <TextView
+                            android:id="@+id/chipTrendCustom"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_custom" />
+                    </LinearLayout>
+                </HorizontalScrollView>
 
                 <include
                     android:id="@+id/trendRange"
-                    layout="@layout/include_inst_date_range" />
+                    layout="@layout/include_inst_date_range"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:visibility="gone" />
+
+                <HorizontalScrollView
+                    android:id="@+id/trendYearRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:scrollbars="none"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chipTrendYear0"
+                            style="@style/DmaChip" />
+
+                        <TextView
+                            android:id="@+id/chipTrendYear1"
+                            style="@style/DmaChip" />
+
+                        <TextView
+                            android:id="@+id/chipTrendYear2"
+                            style="@style/DmaChip" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/_6sdp"
+                    android:text="@string/dma_swipe_hint"
+                    android:textColor="@color/text_hint"
+                    android:textSize="@dimen/_10ssp" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chartTrend"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
-                    android:layout_marginTop="@dimen/_8sdp" />
+                    android:layout_height="@dimen/_200sdp"
+                    android:layout_marginHorizontal="@dimen/_8sdp" />
+
+                <TextView
+                    android:id="@+id/tvChartNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:textColor="@color/text_hint"
+                    android:textSize="@dimen/_10ssp" />
 
                 <TextView
                     android:id="@+id/tvTrendEmpty"
@@ -152,20 +420,198 @@
                     android:padding="@dimen/_8sdp"
                     android:text="@string/dma_chart_empty"
                     android:textColor="@color/text_secondary"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/panelDaily"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:background="@drawable/bg_meter_card"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_12sdp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/dma_history_title"
+                        android:textColor="@color/navy"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvHistoryCaption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_hint"
+                        android:textSize="@dimen/_10ssp" />
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tabHistDaily"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_hist_daily" />
+
+                        <TextView
+                            android:id="@+id/tabHistLeak"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_hist_leak" />
+
+                        <TextView
+                            android:id="@+id/tabHistNrw"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_hist_nrw" />
+
+                        <TextView
+                            android:id="@+id/tabHistFlow"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_hist_flow" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <HorizontalScrollView
+                    android:id="@+id/historyDayRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chipHist7"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_days_7" />
+
+                        <TextView
+                            android:id="@+id/chipHist15"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_days_15" />
+
+                        <TextView
+                            android:id="@+id/chipHist30"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_days_30" />
+
+                        <TextView
+                            android:id="@+id/chipHistCustom"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_custom" />
+                    </LinearLayout>
+                </HorizontalScrollView>
 
                 <include
                     android:id="@+id/historyRange"
-                    layout="@layout/include_inst_date_range" />
+                    layout="@layout/include_inst_date_range"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:visibility="gone" />
+
+                <HorizontalScrollView
+                    android:id="@+id/historyYearRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:scrollbars="none"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chipHistYear0"
+                            style="@style/DmaChip" />
+
+                        <TextView
+                            android:id="@+id/chipHistYear1"
+                            style="@style/DmaChip" />
+
+                        <TextView
+                            android:id="@+id/chipHistYear2"
+                            style="@style/DmaChip" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <HorizontalScrollView
+                    android:id="@+id/flowRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:scrollbars="none"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chipFlow0"
+                            style="@style/DmaChip" />
+
+                        <TextView
+                            android:id="@+id/chipFlow1"
+                            style="@style/DmaChip" />
+
+                        <TextView
+                            android:id="@+id/chipFlow2"
+                            style="@style/DmaChip" />
+
+                        <TextView
+                            android:id="@+id/chipFlowCustom"
+                            style="@style/DmaChip"
+                            android:text="@string/dma_custom" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/tvFlowDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_input_meter"
+                    android:gravity="center"
+                    android:textColor="@color/navy"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
 
                 <TextView
                     android:id="@+id/tvHistoryEmpty"
@@ -175,67 +621,30 @@
                     android:padding="@dimen/_16sdp"
                     android:text="@string/dma_no_rows"
                     android:textColor="@color/text_secondary"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/btnLoadMore"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
-                    android:background="@drawable/bg_soft_button"
                     android:gravity="center"
                     android:text="@string/dma_load_more"
                     android:textColor="@color/primary"
-                    android:textSize="@dimen/_13ssp" />
+                    android:textSize="@dimen/_13ssp"
+                    android:visibility="gone" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/panelMonth"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <include
-                    android:id="@+id/monthRange"
-                    layout="@layout/include_inst_date_range" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/_16sdp"
-                    android:text="@string/dma_no_rows"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="@dimen/_12ssp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/panelFlow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/tvFlowDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:background="@drawable/bg_input_meter"
-                    android:gravity="center"
-                    android:textColor="@color/navy"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/_16sdp"
-                    android:text="@string/dma_no_flow"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="@dimen/_12ssp" />
-            </LinearLayout>
+                android:background="@drawable/bg_meter_card"
+                android:lineSpacingExtra="@dimen/_2sdp"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/dma_formula_detail"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/_10ssp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
