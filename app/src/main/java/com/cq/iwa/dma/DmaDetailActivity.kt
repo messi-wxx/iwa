@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.graphics.Rect
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -34,7 +33,6 @@ import com.cq.iwa.feature.dma.ui.DmaValueTone
 import com.cq.iwa.feature.dma.ui.decodeDmaPartition
 import com.cq.iwa.installation.InstDateRange
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.abs
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -100,17 +98,6 @@ class DmaDetailActivity : IwaBaseActivity<ActivityDmaDetailBinding>() {
             viewModel.setHistoryRange(start, end)
         }
         MpLineCharts.setup(binding.chartTrend)
-        var downX = 0f
-        binding.chartTrend.setOnTouchListener { _, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> downX = event.x
-                MotionEvent.ACTION_UP -> {
-                    val dx = event.x - downX
-                    if (abs(dx) > 120f) viewModel.stepTrend(if (dx < 0) 1 else -1)
-                }
-            }
-            false
-        }
         lifecycleScope.launch {
             viewModel.ui.collect { render(it) }
         }

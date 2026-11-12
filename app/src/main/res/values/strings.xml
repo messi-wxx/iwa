@@ -501,7 +501,7 @@
 
     <string name="dma_title">DMA分区监测</string>
     <string name="dma_refresh">刷新</string>
-    <string name="dma_search_hint">搜索分区名称/编号...</string>
+    <string name="dma_search_hint">分区名称/编号...</string>
     <string name="dma_search">搜索</string>
     <string name="dma_total">总数</string>
     <string name="dma_normal">正常</string>
@@ -580,7 +580,7 @@
     <string name="dma_hist_leak">漏损率明细</string>
     <string name="dma_hist_nrw">产销差明细</string>
     <string name="dma_hist_flow">流量明细</string>
-    <string name="dma_swipe_hint">左右滑动图表或点击箭头切换指标</string>
+    <string name="dma_swipe_hint">点击箭头切换指标</string>
     <string name="dma_note_day">日供水量 = 日流量累计（m³）</string>
     <string name="dma_note_night">夜间总流量与夜间最小流量</string>
     <string name="dma_note_min">夜间最小流量（m³/h），持续抬升提示背景漏损增大</string>
