@@ -111,7 +111,12 @@ object MpLineCharts {
             chart.invalidate()
             return
         }
+        chart.fitScreen()
+        chart.axisLeft.resetAxisMaximum()
+        chart.axisRight.resetAxisMaximum()
+        chart.axisLeft.axisMinimum = 0f
         chart.axisRight.isEnabled = dualAxis
+        if (dualAxis) chart.axisRight.axisMinimum = 0f
         val sets = lines.mapIndexed { index, (name, values) ->
             val entries = labels.indices.map { Entry(it.toFloat(), values.getOrElse(it) { 0f }) }
             LineDataSet(entries, name).apply {
@@ -130,10 +135,12 @@ object MpLineCharts {
                 }
             }
         }
+        val labelStep = if (labels.size <= 12) 1 else (labels.size / 6).coerceAtLeast(1)
+        chart.xAxis.setLabelCount(labels.size.coerceAtMost(12), false)
         chart.xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 val index = value.toInt()
-                if (index == 0 || index == labels.lastIndex || labels.size <= 6) {
+                if (index == 0 || index == labels.lastIndex || index % labelStep == 0) {
                     return labels.getOrNull(index).orEmpty()
                 }
                 return ""

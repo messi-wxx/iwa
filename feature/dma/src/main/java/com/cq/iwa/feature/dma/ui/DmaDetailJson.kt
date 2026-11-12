@@ -1,37 +1,11 @@
-package com.cq.iwa.feature.dma.ui
+﻿package com.cq.iwa.feature.dma.ui
 
+import com.cq.iwa.feature.dma.network.DmaDeviceFlowDto
 import com.cq.iwa.feature.dma.network.DmaFlowDayDto
+import com.cq.iwa.feature.dma.network.DmaLeakageMonthDto
+import com.cq.iwa.feature.dma.network.DmaNrwMonthDto
 import com.cq.iwa.feature.dma.network.DmaTrendSeriesDto
 import java.text.DecimalFormat
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.doubleOrNull
-import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.longOrNull
-
-private val dateKeys = listOf(
-    "date", "readDate", "analyzeDate", "statDate", "lastAnalyzeDate",
-    "day", "time", "month", "yearMonth", "billMonth",
-)
-
-private val idKeys = setOf(
-    "id", "levelNum", "state", "pageSize", "currentPage", "pageTotal",
-    "parentId", "minNightHour", "subareaId",
-)
-
-internal data class DmaPoint(
-    val label: String,
-    val values: Map<String, Double>,
-    val texts: Map<String, String> = emptyMap(),
-)
-
-internal data class DmaPointPage(
-    val points: List<DmaPoint>,
-    val pageTotal: Int?,
-)
 
 internal fun List<DmaTrendSeriesDto>.toChartLines(): Pair<List<String>, List<DmaChartLine>> {
     val rawLabels = linkedSetOf<String>()
@@ -74,77 +48,63 @@ internal fun flowDetailRows(items: List<DmaFlowDayDto>, rangeEnd: String, startI
     }
 }
 
-internal fun parsePointPage(element: JsonElement): DmaPointPage {
-    return DmaPointPage(points = parsePoints(element), pageTotal = findPageTotal(element))
-}
-
-internal fun parseDevices(element: JsonElement): List<DmaDeviceUi> {
-    val objects = mutableListOf<JsonObject>()
-    collectObjects(element, objects)
-    val devices = objects.mapNotNull { it.toDevice() }
-    if (devices.isNotEmpty()) return devices
-    val hours = parsePoints(element).mapNotNull { it.pick(listOf("value", "flow", "instantFlow", "hourFlow")) }
-    if (hours.isEmpty()) return emptyList()
-    return listOf(hours.toDevice("流量点"))
-}
-
-internal fun chartOf(tab: DmaTrendTab, points: List<DmaPoint>): Pair<List<String>, List<DmaChartLine>> {
-    val labels = points.map { axisLabel(it.label, tab == DmaTrendTab.MONTH) }
-    val specs = when (tab) {
-        DmaTrendTab.DAY -> listOf("日供水量" to listOf("flow", "dayFlow", "supply", "value"))
-        DmaTrendTab.NIGHT -> listOf(
-            "夜间总流量" to listOf("totalNightFlow", "nightFlow", "flow", "value"),
-            "夜间最小流量" to listOf("minNightFlow", "minNight"),
-        )
-        DmaTrendTab.MIN_NIGHT -> listOf("夜间最小流量" to listOf("minNightFlow", "minNight", "value"))
-        DmaTrendTab.RATIO -> listOf(
-            "夜间流量占比" to listOf("nightFlowRate", "ratio"),
-            "KL值" to listOf("klRate", "kl"),
-        )
-        DmaTrendTab.LEAK -> listOf("日预估漏损量" to listOf("estimatedLeakageFlow", "elFlow", "leakageFlow", "value"))
-        DmaTrendTab.MONTH -> listOf(
-            "漏损率" to listOf("leakageRate", "lastMonthLeakageRate", "leakRate"),
-            "产销差率" to listOf("nonRevenueWaterRate", "lastMonthNonRevenueWaterRate", "nrwRate"),
-        )
-    }
-    val lines = specs.mapNotNull { (name, keys) ->
-        if (points.none { it.pick(keys) != null }) return@mapNotNull null
-        DmaChartLine(name, points.map { it.pick(keys) ?: 0f })
-    }
-    return labels to lines
-}
-
-internal fun leakRows(points: List<DmaPoint>): List<DmaHistoryRowUi> {
-    return points.map { point ->
-        val rate = point.pick(listOf("leakageRate", "lastMonthLeakageRate", "leakRate"))
+internal fun leakageRows(items: List<DmaLeakageMonthDto>, dataDate: String): List<DmaHistoryRowUi> {
+    return items.sortedBy { it.theMonth }.map { item ->
+        val rate = item.overallLeakageRate
         DmaHistoryRowUi(
-            title = axisLabel(point.label, monthly = true),
-            subtitle = point.text("settleState", "statusName").ifBlank { "账期" },
+            title = axisLabel(item.theMonth, monthly = true),
+            subtitle = monthSubtitle(item.theMonth, dataDate),
             cells = listOf(
-                cell("供水量", point, listOf("supply", "flow", "supplyVolume"), volume = true),
-                cell("漏损量", point, listOf("leakageVolume", "leakVolume", "lossVolume"), volume = true),
-                cell("漏损率", point, listOf("leakageRate", "lastMonthLeakageRate", "leakRate"), percent = true, tone = leakTone(rate)),
-                DmaHistoryCell("评定等级", point.text("grade", "gradeName").ifBlank { gradeOf(rate) }, leakTone(rate)),
+                numberCell("供水量", item.supplyFlow, volume = true),
+                numberCell("漏损量", item.differentialFlow, volume = true),
+                numberCell("漏损率", rate, percent = true, tone = leakTone(rate)),
+                DmaHistoryCell("评定等级", gradeOf(rate), leakTone(rate)),
             ),
         )
     }
 }
 
-internal fun nrwRows(points: List<DmaPoint>): List<DmaHistoryRowUi> {
-    return points.map { point ->
-        val rate = point.pick(listOf("nonRevenueWaterRate", "lastMonthNonRevenueWaterRate", "nrwRate"))
+internal fun nrwRows(items: List<DmaNrwMonthDto>, dataDate: String): List<DmaHistoryRowUi> {
+    return items.sortedBy { it.theMonth }.map { item ->
+        val rate = item.nonRevenueWaterRate
         DmaHistoryRowUi(
-            title = axisLabel(point.label, monthly = true),
-            subtitle = point.text("settleState", "statusName").ifBlank { "账期" },
+            title = axisLabel(item.theMonth, monthly = true),
+            subtitle = monthSubtitle(item.theMonth, dataDate),
             cells = listOf(
-                cell("供水量", point, listOf("supply", "flow", "supplyVolume"), volume = true),
-                cell("售水量", point, listOf("saleVolume", "soldVolume", "sales"), volume = true),
-                cell("产销差量", point, listOf("nrwVolume", "nonRevenueVolume", "diffVolume"), volume = true),
-                cell("产销差率", point, listOf("nonRevenueWaterRate", "lastMonthNonRevenueWaterRate", "nrwRate"), percent = true, tone = leakTone(rate)),
-                DmaHistoryCell("评定等级", point.text("grade", "gradeName").ifBlank { gradeOf(rate) }, leakTone(rate)),
+                numberCell("制水量", item.totalMakeWater, volume = true),
+                numberCell("售水量", item.totalSalesWater, volume = true),
+                numberCell("产销差量", item.nonRevenueWater, volume = true),
+                numberCell("产销差率", rate, percent = true, tone = leakTone(rate)),
+                DmaHistoryCell("评定等级", gradeOf(rate), leakTone(rate)),
             ),
         )
     }
+}
+
+internal fun DmaDeviceFlowDto.toDeviceUi(): DmaDeviceUi {
+    val hours = FloatArray(24)
+    details.forEach { point ->
+        val hour = point.hour.substringBefore(':').toIntOrNull() ?: return@forEach
+        if (hour in hours.indices) hours[hour] = (point.flow ?: 0.0).toFloat()
+    }
+    val dn = when {
+        caliber.isBlank() -> ""
+        caliber.startsWith("DN", ignoreCase = true) -> caliber
+        else -> "DN$caliber"
+    }
+    return DmaDeviceUi(
+        name = name,
+        direction = actionTypeText.ifBlank { if (actionType == 0) "进口" else "出口" },
+        code = code,
+        caliber = dn,
+        typeName = deviceKind,
+        online = "",
+        cumulative = flow?.volume().orEmpty(),
+        average = averageInstantFlow?.volume().orEmpty(),
+        maxText = instantText(maxInstantFlow, maxInstantFlowDate),
+        minText = instantText(minInstantFlow, minInstantFlowDate),
+        hours = hours.toList(),
+    )
 }
 
 internal fun tilesOf(partition: DmaPartitionUi): List<DmaTileUi> {
@@ -160,136 +120,20 @@ internal fun tilesOf(partition: DmaPartitionUi): List<DmaTileUi> {
     )
 }
 
-private fun parsePoints(element: JsonElement): List<DmaPoint> {
-    val groups = mutableListOf<List<DmaPoint>>()
-    collectPointGroups(element, groups)
-    return groups.maxByOrNull { it.size }.orEmpty().sortedBy { it.label }
+private fun monthSubtitle(month: String, dataDate: String): String {
+    val compact = month.filter { it.isDigit() }.take(6)
+    val current = dataDate.filter { it.isDigit() }.take(6)
+    return if (compact.length == 6 && compact == current) "未结算" else "账期"
 }
 
-private fun collectPointGroups(element: JsonElement, out: MutableList<List<DmaPoint>>) {
-    when (element) {
-        is JsonArray -> {
-            val points = element.mapNotNull { (it as? JsonObject)?.toPoint() }
-            if (points.isNotEmpty()) out += points
-            element.forEach { collectPointGroups(it, out) }
-        }
-        is JsonObject -> element.values.forEach { collectPointGroups(it, out) }
-        else -> Unit
-    }
-}
-
-private fun JsonObject.toPoint(): DmaPoint? {
-    val label = dateKeys.firstNotNullOfOrNull { text(it) }?.substringBefore('T') ?: return null
-    if (label.isBlank()) return null
-    val numbers = mutableMapOf<String, Double>()
-    val texts = mutableMapOf<String, String>()
-    entries.forEach { (key, value) ->
-        val number = value.asDouble()
-        if (number != null) {
-            numbers[key] = number
-        } else {
-            val text = (value as? JsonPrimitive)?.contentOrNull?.takeIf { it.isNotBlank() && it != "null" }
-            if (text != null) texts[key] = text
-        }
-    }
-    if (numbers.isEmpty()) return null
-    return DmaPoint(label, numbers, texts)
-}
-
-private fun findPageTotal(element: JsonElement): Int? {
-    if (element is JsonObject && element.containsKey("pageTotal") && element.containsKey("currentPage")) {
-        return element.intValue("pageTotal")
-    }
-    return when (element) {
-        is JsonObject -> element.values.firstNotNullOfOrNull { findPageTotal(it) }
-        is JsonArray -> element.firstNotNullOfOrNull { findPageTotal(it) }
-        else -> null
-    }
-}
-
-private fun collectObjects(element: JsonElement, out: MutableList<JsonObject>) {
-    when (element) {
-        is JsonArray -> element.forEach { item ->
-            if (item is JsonObject) out += item
-            collectObjects(item, out)
-        }
-        is JsonObject -> element.values.forEach { collectObjects(it, out) }
-        else -> Unit
-    }
-}
-
-private fun JsonObject.toDevice(): DmaDeviceUi? {
-    val explicit = text("deviceName") ?: text("meterName")
-    val name = explicit ?: text("name") ?: return null
-    val looksLikeDevice = explicit != null ||
-        text("direction") != null || text("dir") != null || text("inOut") != null ||
-        text("deviceCode") != null || text("dn") != null || text("caliber") != null
-    if (!looksLikeDevice || name.isBlank()) return null
-    val hours = hourValues()
-    val maxValue = asDouble("maxFlow", "maxValue", "maxInstant")
-    val minValue = asDouble("minFlow", "minValue", "minInstant")
-    return DmaDeviceUi(
-        name = text("deviceName") ?: text("meterName") ?: name,
-        direction = directionText(),
-        code = text("code") ?: text("deviceCode").orEmpty(),
-        caliber = text("dn") ?: text("caliber") ?: text("diameter") ?: intValue("dn")?.let { "DN$it" }.orEmpty(),
-        typeName = text("type") ?: text("meterType") ?: text("deviceType").orEmpty(),
-        online = onlineText(),
-        cumulative = (asDouble("cumulative", "dayFlow", "totalFlow", "flow"))?.volume().orEmpty(),
-        average = (asDouble("avg", "average", "avgFlow"))?.volume().orEmpty(),
-        maxText = listOfNotNull(maxValue?.volume(), text("maxHour") ?: text("maxTime")).joinToString(" "),
-        minText = listOfNotNull(minValue?.volume(), text("minHour") ?: text("minTime")).joinToString(" "),
-        hours = hours,
-    )
-}
-
-private fun List<Float>.toDevice(name: String): DmaDeviceUi {
-    val max = withIndex().maxByOrNull { it.value }
-    val min = withIndex().minByOrNull { it.value }
-    val sum = sum()
-    return DmaDeviceUi(
-        name = name,
-        direction = "",
-        code = "",
-        caliber = "",
-        typeName = "",
-        online = "",
-        cumulative = "",
-        average = if (isEmpty()) "" else (sum / size).volume(),
-        maxText = max?.let { "${it.value.volume()} ${hourLabel(it.index)}" }.orEmpty(),
-        minText = min?.let { "${it.value.volume()} ${hourLabel(it.index)}" }.orEmpty(),
-        hours = this,
-    )
-}
-
-private fun JsonObject.hourValues(): List<Float> {
-    val array = entries.firstNotNullOfOrNull { (key, value) ->
-        if (value is JsonArray && key.lowercase() in setOf("hours", "points", "values", "hourflows", "hourflow")) value else null
-    } ?: return emptyList()
-    return array.mapNotNull { item ->
-        when (item) {
-            is JsonPrimitive -> item.asDouble()?.toFloat()
-            is JsonObject -> item.asDouble("value", "flow", "instantFlow")?.toFloat()
-            else -> null
-        }
-    }
-}
-
-private fun JsonObject.directionText(): String {
-    val raw = text("direction") ?: text("dir") ?: text("inOut") ?: text("flowDirection").orEmpty()
+private fun instantText(value: Double?, time: String?): String {
+    val amount = value?.volume().orEmpty()
+    val at = time?.takeIf { it.isNotBlank() }.orEmpty()
     return when {
-        raw.contains("进") || raw == "1" || raw.equals("in", true) -> "进口"
-        raw.contains("出") || raw == "2" || raw.equals("out", true) -> "出口"
-        else -> raw
-    }
-}
-
-private fun JsonObject.onlineText(): String {
-    val raw = text("online") ?: text("onlineState") ?: return ""
-    return when (raw) {
-        "1", "true", "在线" -> "在线"
-        "0", "false", "离线" -> "离线"
-        else -> raw
+        amount.isBlank() && at.isBlank() -> ""
+        at.isBlank() -> amount
+        amount.isBlank() -> at
+        else -> "$amount（$at）"
     }
 }
 
@@ -307,34 +151,6 @@ private fun numberCell(
         else -> value.rate()
     }
     return DmaHistoryCell(label, text, if (value == null) DmaValueTone.DEFAULT else tone)
-}
-
-private fun cell(
-    label: String,
-    point: DmaPoint,
-    keys: List<String>,
-    volume: Boolean = false,
-    percent: Boolean = false,
-    tone: DmaValueTone = DmaValueTone.DEFAULT,
-): DmaHistoryCell {
-    val number = point.pick(keys)
-    val text = when {
-        number == null -> "—"
-        percent -> "${number.rate()}%"
-        volume -> number.volume()
-        else -> number.rate()
-    }
-    return DmaHistoryCell(label, text, if (number == null) DmaValueTone.DEFAULT else tone)
-}
-
-private fun DmaPoint.pick(keys: List<String>): Float? {
-    keys.forEach { key -> values[key]?.let { return it.toFloat() } }
-    if (keys.isNotEmpty()) return null
-    return values.entries.firstOrNull { it.key !in idKeys }?.value?.toFloat()
-}
-
-private fun DmaPoint.text(vararg keys: String): String {
-    return keys.firstNotNullOfOrNull { texts[it] }.orEmpty()
 }
 
 private fun ratioTone(value: Number?): DmaValueTone {
@@ -412,25 +228,6 @@ private fun weekday(raw: String): String {
     val names = "日一二三四五六"
     return "周${names[calendar.get(java.util.Calendar.DAY_OF_WEEK) - 1]}"
 }
-
-private fun hourLabel(index: Int): String = "%02d:00".format(index)
-
-private fun JsonElement.asDouble(): Double? {
-    val primitive = this as? JsonPrimitive ?: return null
-    return primitive.doubleOrNull ?: primitive.intOrNull?.toDouble() ?: primitive.longOrNull?.toDouble()
-        ?: primitive.contentOrNull?.toDoubleOrNull()
-}
-
-private fun JsonObject.asDouble(vararg keys: String): Double? {
-    return keys.firstNotNullOfOrNull { key -> this[key]?.asDouble() }
-}
-
-private fun JsonObject.text(key: String): String? {
-    val primitive = this[key] as? JsonPrimitive ?: return null
-    return primitive.contentOrNull?.takeIf { it.isNotBlank() && it != "null" }
-}
-
-private fun JsonObject.intValue(key: String): Int? = this[key]?.asDouble()?.toInt()
 
 private fun Double.volume(): String = DecimalFormat("#,##0.##").format(this)
 

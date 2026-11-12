@@ -226,13 +226,16 @@
                     android:paddingTop="@dimen/_12sdp">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="@string/dma_trend_title"
                         android:textColor="@color/navy"
                         android:textSize="@dimen/_14ssp"
                         android:textStyle="bold" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/tvRangeLabel"
@@ -440,14 +443,16 @@
                     android:paddingTop="@dimen/_12sdp">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="@string/dma_history_title"
                         android:textColor="@color/navy"
                         android:textSize="@dimen/_14ssp"
                         android:textStyle="bold" />
-
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
                     <TextView
                         android:id="@+id/tvHistoryCaption"
                         android:layout_width="wrap_content"

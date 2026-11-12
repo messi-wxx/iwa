@@ -20,6 +20,7 @@ import com.cq.iwa.IwaBaseActivity
 import com.cq.iwa.R
 import com.cq.iwa.chart.MpLineCharts
 import com.cq.iwa.databinding.ActivityDmaDetailBinding
+import com.cq.iwa.databinding.ItemDmaFlowDeviceBinding
 import com.cq.iwa.databinding.ItemDmaHistoryBinding
 import com.cq.iwa.databinding.ItemDmaHistoryCellBinding
 import com.cq.iwa.databinding.ItemDmaTileBinding
@@ -325,7 +326,7 @@ private class TileAdapter(
 
 private class HistoryAdapter(
     private val onDevice: (Int) -> Unit,
-) : RecyclerView.Adapter<HistoryAdapter.Holder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var items: List<DmaHistoryRowUi> = emptyList()
 
     fun submit(list: List<DmaHistoryRowUi>) {
@@ -335,36 +336,73 @@ private class HistoryAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val binding = ItemDmaHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return Holder(binding)
+    override fun getItemViewType(position: Int): Int = if (items[position].deviceIndex == null) TYPE_DATE else TYPE_DEVICE
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return if (viewType == TYPE_DEVICE) {
+            DeviceHolder(ItemDmaFlowDeviceBinding.inflate(inflater, parent, false))
+        } else {
+            DateHolder(ItemDmaHistoryBinding.inflate(inflater, parent, false))
+        }
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = items[position]
-        val binding = holder.binding
-        binding.tvTitle.text = item.title
-        binding.tvSub.text = item.subtitle
-        binding.tvSub.isVisible = item.subtitle.isNotBlank()
-        binding.vDivider.isVisible = position < items.lastIndex
-        val cells = listOf(binding.cell0, binding.cell1, binding.cell2, binding.cell3, binding.cell4, binding.cell5)
-        cells.forEachIndexed { index, cell ->
-            val data = item.cells.getOrNull(index)
-            cell.root.isVisible = data != null
-            if (data != null) bindCell(cell, data.label, data.value, data.tone)
-        }
-        holder.itemView.setOnClickListener {
-            item.deviceIndex?.let(onDevice)
+        val last = position == items.lastIndex
+        when (holder) {
+            is DateHolder -> holder.bind(item, last)
+            is DeviceHolder -> holder.bind(item, last, onDevice)
         }
     }
 
-    private fun bindCell(cell: ItemDmaHistoryCellBinding, label: String, value: String, tone: DmaValueTone) {
-        cell.tvLabel.text = label
-        cell.tvValue.text = value
-        cell.tvValue.setTextColor(ContextCompat.getColor(cell.root.context, toneColor(tone)))
+    class DateHolder(private val binding: ItemDmaHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: DmaHistoryRowUi, last: Boolean) {
+            binding.tvTitle.text = item.title
+            binding.tvSub.text = item.subtitle
+            binding.tvSub.isVisible = item.subtitle.isNotBlank()
+            binding.vDivider.isVisible = !last
+            val cells = listOf(
+                binding.cell0, binding.cell1, binding.cell2, binding.cell3, binding.cell4, binding.cell5,
+                binding.cell6, binding.cell7, binding.cell8, binding.cell9, binding.cell10, binding.cell11,
+            )
+            cells.forEachIndexed { index, cell ->
+                val data = item.cells.getOrNull(index)
+                cell.root.isVisible = data != null
+                if (data != null) bindCell(cell, data.label, data.value, data.tone)
+            }
+            binding.rowExtra1.isVisible = item.cells.size > 6
+            binding.rowExtra2.isVisible = item.cells.size > 9
+        }
     }
 
-    class Holder(val binding: ItemDmaHistoryBinding) : RecyclerView.ViewHolder(binding.root)
+    class DeviceHolder(private val binding: ItemDmaFlowDeviceBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: DmaHistoryRowUi, last: Boolean, onDevice: (Int) -> Unit) {
+            binding.tvDirection.text = item.title
+            binding.tvName.text = item.subtitle
+            binding.tvMeta.text = item.meta
+            binding.tvMeta.isVisible = item.meta.isNotBlank()
+            binding.vDivider.isVisible = !last
+            val cells = listOf(binding.cell0, binding.cell1, binding.cell2, binding.cell3)
+            cells.forEachIndexed { index, cell ->
+                val data = item.cells.getOrNull(index)
+                cell.root.isVisible = data != null
+                if (data != null) bindCell(cell, data.label, data.value, data.tone)
+            }
+            binding.root.setOnClickListener { item.deviceIndex?.let(onDevice) }
+        }
+    }
+
+    private companion object {
+        const val TYPE_DATE = 0
+        const val TYPE_DEVICE = 1
+    }
+}
+
+private fun bindCell(cell: ItemDmaHistoryCellBinding, label: String, value: String, tone: DmaValueTone) {
+    cell.tvLabel.text = label
+    cell.tvValue.text = value
+    cell.tvValue.setTextColor(ContextCompat.getColor(cell.root.context, toneColor(tone)))
 }
 
 private class GridLineDecoration(density: Float) : RecyclerView.ItemDecoration() {

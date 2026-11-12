@@ -4,12 +4,14 @@ import com.cq.iwa.core.common.model.ApiResult
 import com.cq.iwa.core.network.ApiExceptionHandler
 import com.cq.iwa.feature.dma.network.DmaApi
 import com.cq.iwa.feature.dma.network.DmaDetailDto
+import com.cq.iwa.feature.dma.network.DmaDeviceFlowDto
 import com.cq.iwa.feature.dma.network.DmaFlowDetailDto
+import com.cq.iwa.feature.dma.network.DmaLeakageMonthDto
 import com.cq.iwa.feature.dma.network.DmaLevelOptionDto
 import com.cq.iwa.feature.dma.network.DmaListDto
+import com.cq.iwa.feature.dma.network.DmaNrwMonthDto
 import com.cq.iwa.feature.dma.network.DmaParentDto
 import com.cq.iwa.feature.dma.network.DmaTrendSeriesDto
-import kotlinx.serialization.json.JsonElement
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -56,7 +58,7 @@ class DmaRepository @Inject constructor(
     suspend fun elFlowTrend(subareaId: Long, beginDate: String, endDate: String): ApiResult<DmaTrendSeriesDto> =
         ApiExceptionHandler.safeApiCall { api.elFlowTrend(subareaId, beginDate, endDate) }
 
-    suspend fun leakageRateTrend(subareaId: Long, year: Int): ApiResult<JsonElement> =
+    suspend fun leakageRateTrend(subareaId: Long, year: Int): ApiResult<List<DmaTrendSeriesDto>> =
         ApiExceptionHandler.safeApiCall { api.leakageRateTrend(subareaId, year) }
 
     suspend fun flowDetail(
@@ -71,12 +73,12 @@ class DmaRepository @Inject constructor(
         api.flowDetail(subareaId, beginDate, endDate, pageSize, currentPage, pageTotal, extraInfo)
     }
 
-    suspend fun leakageRateDetail(subareaId: Long, year: Int): ApiResult<JsonElement> =
+    suspend fun leakageRateDetail(subareaId: Long, year: Int): ApiResult<List<DmaLeakageMonthDto>> =
         ApiExceptionHandler.safeApiCall { api.leakageRateDetail(subareaId, year) }
 
-    suspend fun nonRevenueWaterDetail(subareaId: Long, year: Int): ApiResult<JsonElement> =
+    suspend fun nonRevenueWaterDetail(subareaId: Long, year: Int): ApiResult<List<DmaNrwMonthDto>> =
         ApiExceptionHandler.safeApiCall { api.nonRevenueWaterDetail(subareaId, year) }
 
-    suspend fun deviceFlow(subareaId: Long, readDate: String): ApiResult<JsonElement> =
+    suspend fun deviceFlow(subareaId: Long, readDate: String): ApiResult<List<DmaDeviceFlowDto>> =
         ApiExceptionHandler.safeApiCall { api.deviceFlow(subareaId, readDate) }
 }

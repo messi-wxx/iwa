@@ -1,6 +1,5 @@
 package com.cq.iwa.feature.dma.network
 
-import kotlinx.serialization.json.JsonElement
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -71,7 +70,7 @@ interface DmaApi {
     suspend fun leakageRateTrend(
         @Query("subareaId") subareaId: Long,
         @Query("year") year: Int,
-    ): Response<JsonElement>
+    ): Response<List<DmaTrendSeriesDto>>
 
     @GET("dma/v3/AppService/Subarea/FlowDetail")
     suspend fun flowDetail(
@@ -88,17 +87,17 @@ interface DmaApi {
     suspend fun leakageRateDetail(
         @Query("subareaId") subareaId: Long,
         @Query("year") year: Int,
-    ): Response<JsonElement>
+    ): Response<List<DmaLeakageMonthDto>>
 
     @GET("dma/v3/AppService/Subarea/NonRevenueWaterDetail")
     suspend fun nonRevenueWaterDetail(
         @Query("subareaId") subareaId: Long,
         @Query("year") year: Int,
-    ): Response<JsonElement>
+    ): Response<List<DmaNrwMonthDto>>
 
     @GET("dma/v3/AppService/Subarea/DeviceFlow")
     suspend fun deviceFlow(
         @Query("subareaId") subareaId: Long,
         @Query("readDate") readDate: String,
-    ): Response<JsonElement>
+    ): Response<List<DmaDeviceFlowDto>>
 }

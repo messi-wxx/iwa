@@ -131,6 +131,7 @@ data class DmaHistoryRowUi(
     val title: String,
     val subtitle: String,
     val cells: List<DmaHistoryCell>,
+    val meta: String = "",
     val deviceIndex: Int? = null,
 )
 

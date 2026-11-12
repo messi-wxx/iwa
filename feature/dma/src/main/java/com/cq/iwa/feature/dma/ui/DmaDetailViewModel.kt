@@ -190,16 +190,10 @@ class DmaDetailViewModel @Inject constructor(
             DmaTrendTab.LEAK -> publishSeries(
                 withContext(ioDispatcher) { dmaRepository.elFlowTrend(subareaId, ui.trendStart, ui.trendEnd) },
             )
-            DmaTrendTab.MONTH -> {
-                when (val result = withContext(ioDispatcher) { dmaRepository.leakageRateTrend(subareaId, ui.trendYear) }) {
-                    is ApiResult.Success -> {
-                        val points = parsePointPage(result.data).points
-                        val (labels, lines) = chartOf(DmaTrendTab.MONTH, points)
-                        publishChart(labels, lines, "${ui.trendYear}年 · 共${points.size}个账期")
-                    }
-                    is ApiResult.Error -> showToast(result.message.ifBlank { "加载失败" })
-                }
-            }
+            DmaTrendTab.MONTH -> publishSeriesList(
+                withContext(ioDispatcher) { dmaRepository.leakageRateTrend(subareaId, ui.trendYear) },
+                monthly = true,
+            )
         }
     }
 
@@ -213,11 +207,16 @@ class DmaDetailViewModel @Inject constructor(
         }
     }
 
-    private fun publishSeriesList(result: ApiResult<List<DmaTrendSeriesDto>>) {
+    private fun publishSeriesList(result: ApiResult<List<DmaTrendSeriesDto>>, monthly: Boolean = false) {
         when (result) {
             is ApiResult.Success -> {
                 val (labels, lines) = result.data.toChartLines()
-                publishChart(labels, lines, trendCaption(labels))
+                val caption = if (monthly) {
+                    "${_ui.value.trendYear}年 · 共${labels.size}个账期"
+                } else {
+                    trendCaption(labels)
+                }
+                publishChart(labels, lines, caption)
             }
             is ApiResult.Error -> showToast(result.message.ifBlank { "加载失败" })
         }
@@ -293,21 +292,28 @@ class DmaDetailViewModel @Inject constructor(
 
     private suspend fun loadYearDetail(leak: Boolean) {
         val year = _ui.value.historyYear
-        val result = withContext(ioDispatcher) {
-            if (leak) dmaRepository.leakageRateDetail(subareaId, year) else dmaRepository.nonRevenueWaterDetail(subareaId, year)
-        }
-        when (result) {
-            is ApiResult.Success -> {
-                val points = parsePointPage(result.data).points
-                _ui.value = _ui.value.copy(
-                    rows = if (leak) leakRows(points) else nrwRows(points),
-                    devices = emptyList(),
-                    historyHasMore = false,
-                    historyCaption = "${year}年 · 共${points.size}个账期",
-                )
+        val dataDate = _ui.value.dataDate
+        if (leak) {
+            when (val result = withContext(ioDispatcher) { dmaRepository.leakageRateDetail(subareaId, year) }) {
+                is ApiResult.Success -> publishYear(leakageRows(result.data, dataDate), year)
+                is ApiResult.Error -> showToast(result.message.ifBlank { "加载失败" })
             }
-            is ApiResult.Error -> showToast(result.message.ifBlank { "加载失败" })
+        } else {
+            when (val result = withContext(ioDispatcher) { dmaRepository.nonRevenueWaterDetail(subareaId, year) }) {
+                is ApiResult.Success -> publishYear(nrwRows(result.data, dataDate), year)
+                is ApiResult.Error -> showToast(result.message.ifBlank { "加载失败" })
+            }
         }
+    }
+
+    private fun publishYear(rows: List<DmaHistoryRowUi>, year: Int) {
+        val unsettled = if (rows.any { it.subtitle == "未结算" }) " · 含当月未结算" else ""
+        _ui.value = _ui.value.copy(
+            rows = rows,
+            devices = emptyList(),
+            historyHasMore = false,
+            historyCaption = "${year}年 · 共${rows.size}个账期$unsettled",
+        )
     }
 
     private suspend fun loadDevices() {
@@ -315,12 +321,12 @@ class DmaDetailViewModel @Inject constructor(
         val result = withContext(ioDispatcher) { dmaRepository.deviceFlow(subareaId, date) }
         when (result) {
             is ApiResult.Success -> {
-                val devices = parseDevices(result.data)
+                val devices = result.data.map { it.toDeviceUi() }
                 _ui.value = _ui.value.copy(
                     devices = devices,
                     rows = devices.mapIndexed { index, device -> device.toRow(index) },
                     historyHasMore = false,
-                    historyCaption = "$date · 进出口流量点 ${devices.size} 个",
+                    historyCaption = "$date · 进出口流量点 ${devices.size} 个 · 点击查看24h曲线",
                 )
             }
             is ApiResult.Error -> showToast(result.message.ifBlank { "加载失败" })
@@ -328,10 +334,11 @@ class DmaDetailViewModel @Inject constructor(
     }
 
     private fun DmaDeviceUi.toRow(index: Int): DmaHistoryRowUi {
-        val meta = listOf(direction, code, caliber, typeName, online).filter { it.isNotBlank() }.joinToString(" · ")
+        val meta = listOf(code, caliber, typeName).filter { it.isNotBlank() }.joinToString(" · ")
         return DmaHistoryRowUi(
-            title = name,
-            subtitle = meta,
+            title = direction.ifBlank { "流量点" },
+            subtitle = name,
+            meta = meta,
             deviceIndex = index,
             cells = listOf(
                 DmaHistoryCell("日累计流量", cumulative.ifBlank { "—" }),

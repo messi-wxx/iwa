@@ -590,6 +590,7 @@
     <string name="dma_formula_detail">夜间流量占比 = 夜间总流量 / 日流量 × 100%\nKL = 分区每日最小夜间流量 / 日均流量 × 100%\n预估漏损量 = 日供水量 × max(KL − 20%, 0)\n预估漏损率 = 预估漏损量 / 总供量 × 100%\n漏损率 = 漏损量 / 供水量 × 100%\n产销差率 = (供水量 − 售水量) / 供水量 × 100%\n评定等级：&lt;9% 优 · 9-12% 良 · 12-15% 合格 · &gt;15% 不合格</string>
     <string name="dma_belong">所属：%1$s</string>
     <string name="dma_device_title">流量点曲线</string>
+    <string name="dma_device_curve">曲线</string>
     <string name="dma_trend">趋势</string>
     <string name="dma_daily">逐日</string>
     <string name="dma_month">月度</string>
